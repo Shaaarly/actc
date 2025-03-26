@@ -59,8 +59,12 @@ class User extends Authenticatable
     }
 
     public function notifications() {
-        return $this->hasMany(Notification::class);
+        return $this->belongsToMany(Notification::class, 'notification_user', 'user_id', 'notification_id')
+                    ->withTimestamps()
+                    // ->withPivot('read_at', 'sent_at') // si tienes columnas extra en la pivote
+                    ;
     }
+
 
     public function payments() {
         return $this->hasMany(Payment::class);

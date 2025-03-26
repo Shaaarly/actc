@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Plate extends Model
 {
     use HasFactory;
+
+            /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'plate'
+    ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
