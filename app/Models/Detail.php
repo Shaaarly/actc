@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model
+class Detail extends Model
 {
     use HasFactory;
 
@@ -15,14 +15,19 @@ class Notification extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'message',
+        'price',
+        'detail',
+        'date',
+        'user_id',
         'payment_id'
     ];
 
+    public function bill() {
+        return $this->hasOne(Bill::class);
+    }
+
     public function users() {
-        return $this->belongsToMany(User::class)
-                    ->withTimestamps();
+        return $this->belongsTo(User::class);
     }
 
     public function payment() {

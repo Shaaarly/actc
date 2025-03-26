@@ -85,4 +85,14 @@ class User extends Authenticatable
     public function address() {
         return $this->morphOne(Address::class, 'addressable');
     }
+
+    public function leases() {
+        return $this->hasManyThrough(
+            Lease::class,
+            Property::class,
+            'owner_id', 
+            'property_id'
+        );
+}
+
 }

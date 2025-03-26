@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Plate extends Model
+class ExpenseType extends Model
 {
     use HasFactory;
 
@@ -15,11 +15,10 @@ class Plate extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'plate',
-        'user_id'
+        'expense_type'
     ];
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function expenses() {
+        return $this->hasMany(Expense::class);
     }
 }

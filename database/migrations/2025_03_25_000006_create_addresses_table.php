@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('addressable_type');
             $table->string('street_name');
             $table->integer('postal_code');
+            $table->integer('entrance_number');
+            $table->integer('apartment_number');
             $table->string('city');
             $table->string('country');
             $table->timestamps();

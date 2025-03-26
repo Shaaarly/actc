@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('price');
             $table->boolean('available');
+            $table->boolean('ocupied');
             $table->integer('bathrooms');
             $table->integer('rooms');
             $table->boolean('keys');
