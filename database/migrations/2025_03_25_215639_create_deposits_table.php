@@ -21,7 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->text('description');
             $table->boolean('returned');
-            $table->int('amount');
+            $table->integer('amount');
         });
     }
 

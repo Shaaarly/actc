@@ -11,15 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
+            $table->string('price');
+            $table->boolean('available');
+            $table->integer('bathrooms');
+            $table->integer('rooms');
+            $table->boolean('keys');
+            $table->boolean('remote');
+            $table->unsignedBigInteger('property_type_id');
+            $table->foreign('property_type_id')
                 ->references('id')
-                ->on('users')
+                ->on('property_types')
                 ->onDelete('cascade');
-            $table->string('role_name');
         });
     }
 
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('properties');
     }
 };

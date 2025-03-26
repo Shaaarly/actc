@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('addressable_id');
             $table->string('addressable_type');
             $table->string('street_name');
-            $table->int('postal_code');
+            $table->integer('postal_code');
             $table->string('city');
             $table->string('country');
             $table->timestamps();

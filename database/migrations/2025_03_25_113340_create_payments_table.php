@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->enum('status', ['completed', 'sleeping', 'pending'])->default('pending');
-            $table->int('value');
+            $table->integer('value');
             $table->text('description');
             $table->unsignedBigInteger('payment_type_id');
             $table->foreign('payment_type_id')

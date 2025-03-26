@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('details', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->int('price');
+            $table->integer('price');
             $table->text('detail');
             $table->date('date');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('payment_id');
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
