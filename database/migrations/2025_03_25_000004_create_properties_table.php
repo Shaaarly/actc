@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('price');
+            $table->integer('price');
+            $table->string('description');
             $table->boolean('available');
             $table->boolean('ocupied');
+            $table->integer('area');
             $table->integer('bathrooms');
             $table->integer('rooms');
             $table->boolean('keys');

@@ -15,8 +15,7 @@ class Notification extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'message',
+        'notification_type_id',
         'payment_id'
     ];
 
@@ -27,5 +26,9 @@ class Notification extends Model
 
     public function payment() {
         return $this->belongsTo(Payment::class);
+    }
+
+    public function type() {
+        return $this->belongsTo(NotificationType::class);
     }
 }

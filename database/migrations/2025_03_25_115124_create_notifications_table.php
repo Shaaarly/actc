@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('message');
             $table->timestamps();
             $table->unsignedBigInteger('payment_id');
             $table->foreign('payment_id')
                 ->references('id')
                 ->on('payments')
+                ->onDelete('cascade');
+            $table->unsignedBigInteger('notification_type_id');
+            $table->foreign('notification_type_id')
+                ->references('id')
+                ->on('notification_types')
                 ->onDelete('cascade');
         });
     }
