@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('source');
+            
             $table->unsignedBigInteger('detail_id');
             $table->foreign('detail_id')
                 ->references('id')
                 ->on('details')
                 ->onDelete('cascade');
-            $table->string('source');
         });
     }
 

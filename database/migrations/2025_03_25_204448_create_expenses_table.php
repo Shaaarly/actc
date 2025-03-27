@@ -14,18 +14,20 @@ return new class extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->text('description')->nullable();
+            $table->integer('value');
+
             $table->unsignedBigInteger('expense_type_id');
-            $table->unsignedBigInteger('property_id');
             $table->foreign('expense_type_id')
-                ->references('id')
-                ->on('expense_types')
-                ->onDelete('cascade');
+            ->references('id')
+            ->on('expense_types')
+            ->onDelete('cascade');
+
+            $table->unsignedBigInteger('property_id');
             $table->foreign('property_id')
                 ->references('id')
                 ->on('properties')
                 ->onDelete('cascade');
-            $table->text('description');
-            $table->integer('value');
         });
     }
 

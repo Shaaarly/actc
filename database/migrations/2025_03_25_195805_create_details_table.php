@@ -17,14 +17,15 @@ return new class extends Migration
             $table->integer('price');
             $table->text('detail');
             $table->date('date');
+
+            
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('payment_id');
-
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
-
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade');
+            
+            $table->unsignedBigInteger('payment_id');
             $table->foreign('payment_id')
                 ->references('id')
                 ->on('payments')

@@ -22,7 +22,9 @@ class Address extends Model
         'entrance_number',
         'apartment_number',
         'city',
-        'country'
+        'country',
+        'block',
+        'floor'
     ];
 
     public function addressable() {

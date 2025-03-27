@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('description');
             $table->boolean('available');
             $table->boolean('ocupied');
-            $table->integer('area');
-            $table->integer('bathrooms');
-            $table->integer('rooms');
+            $table->integer('area')->nullable();
+            $table->integer('bathrooms')->nullable();
+            $table->integer('rooms')->nullable();
             $table->boolean('keys');
             $table->boolean('remote');
+            
             $table->unsignedBigInteger('property_type_id');
             $table->foreign('property_type_id')
                 ->references('id')

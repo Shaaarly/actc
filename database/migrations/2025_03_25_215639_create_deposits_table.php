@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('deposits', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->text('description')->nullable();
+            $table->boolean('returned');
+            $table->integer('amount');
+
             $table->unsignedBigInteger('lease_id')->unique();
             $table->foreign('lease_id')
                 ->references('id')
                 ->on('leases')
                 ->onDelete('cascade');
-            $table->text('description');
-            $table->boolean('returned');
-            $table->integer('amount');
         });
     }
 

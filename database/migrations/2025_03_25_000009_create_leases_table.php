@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             // Date guarda año-mes-dia
             $table->date('start_lease');
-            $table->date('end_lease');
+            $table->date('end_lease')->nullable();
 
             $table->boolean('keys_returned');
             $table->boolean('remote_returned');

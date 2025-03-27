@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('source');
+
             $table->unsignedBigInteger('lease_id')->unique();
             $table->foreign('lease_id')
                 ->references('id')
                 ->on('leases')
                 ->onDelete('cascade');
-            $table->string('source');
         });
     }
 

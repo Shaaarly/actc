@@ -65,7 +65,6 @@ class User extends Authenticatable
                     ;
     }
 
-
     public function payments() {
         return $this->hasMany(Payment::class);
     }
@@ -93,6 +92,6 @@ class User extends Authenticatable
             'owner_id', 
             'property_id'
         );
-}
+    }
 
 }
