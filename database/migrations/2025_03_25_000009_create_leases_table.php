@@ -13,28 +13,34 @@ return new class extends Migration
     {
         Schema::create('leases', function (Blueprint $table) {
             $table->id(); // Columna autoincremental
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('property_id');
             $table->timestamps();
             // Date guarda año-mes-dia
             $table->date('start_lease');
             $table->date('end_lease')->nullable();
-
+            
             $table->boolean('keys_returned');
             $table->boolean('remote_returned');
-
+            
             // Definición de las claves foráneas
-            $table->foreign('user_id')
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
 
+            $table->unsignedBigInteger('owner_id');
+            $table->foreign('owner_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            
+            $table->unsignedBigInteger('property_id');
             $table->foreign('property_id')
                 ->references('id')
                 ->on('properties')
                 ->onDelete('cascade');
 
-            $table->unique(['user_id', 'property_id']);
+            $table->unique(['client_id', 'property_id']);
         });
     }
 

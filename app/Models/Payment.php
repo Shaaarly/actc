@@ -29,8 +29,16 @@ class Payment extends Model
         return $this->belongsTo(PaymentsType::class);
     }
 
-    public function clients() {
-        return $this->belongsToMany(User::class)->where('role_id', 1);
+    // public function clients() {
+    //     return $this->belongsToMany(User::class)->where('role_id', 1);
+    // }
+
+    // public function properties() {
+    //     return $this->belongsToMany(Property::class);
+    // }
+
+    public function leases() {
+        return $this->hasMany(Lease::class);
     }
 
     public function owner() {

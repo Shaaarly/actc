@@ -20,6 +20,10 @@ class Picture extends Model
         'source'
     ];
 
+    public function picturable() {
+        return $this->morphTo();
+    }
+
     public function users() {
         return $this->morphedByMany(User::class, 'picturable');
     }

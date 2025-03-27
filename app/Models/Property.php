@@ -20,7 +20,6 @@ class Property extends Model
         'ocupied',
         'description',
         'area',
-        'ocupied',
         'bathrooms',
         'rooms',
         'remote',

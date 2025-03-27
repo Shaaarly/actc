@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->enum('status', ['completed', 'sleeping', 'pending'])->default('pending');
+            $table->enum('status', ['completed', 'incompleted', 'pending'])->default('pending');
             $table->integer('value');
             $table->text('description')->nullable();
 

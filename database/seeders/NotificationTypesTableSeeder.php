@@ -13,14 +13,20 @@ class NotificationTypesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        NotificationType::create([
-            'title' => 'completed',
-            'message' => 'Pago completado con éxito'
-        ]);
-        NotificationType::create([
-            'title' => 'delayed',
-            'message' => 'Pago retrasado, pendiente de pago'
+        // NotificationType::create([
+        //     'title' => 'completed',
+        //     'message' => 'Pago completado con éxito'
+        // ]);
+        // NotificationType::create([
+        //     'title' => 'delayed',
+        //     'message' => 'Pago retrasado, pendiente de pago'
         
-        ]);
+        // ]);
+
+        $notification_types = include database_path('data/notificationTypes.php');
+
+        foreach($notification_types as $notification_type) {
+            NotificationType::create($notification_type);
+        }
     }
 }

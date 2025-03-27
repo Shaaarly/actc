@@ -16,7 +16,8 @@ class Lease extends Model
      */
     protected $fillable = [
         'property_id',
-        'user_id',
+        'client_id',
+        'owner_id',
         'keys_returned',
         'remote_returned',
         'start_date',
@@ -41,5 +42,9 @@ class Lease extends Model
 
     public function contract() {
         return $this->hasOne(Contract::class);
+    }
+
+    public function payments() {
+        return $this->hasMany(Payment::class);
     }
 }

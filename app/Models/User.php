@@ -65,9 +65,9 @@ class User extends Authenticatable
                     ;
     }
 
-    public function payments() {
-        return $this->hasMany(Payment::class);
-    }
+    // public function payments() {
+    //     return $this->hasMany(Payment::class);
+    // }
 
     public function properties() {
         return $this->hasMany(Property::class);
@@ -89,9 +89,14 @@ class User extends Authenticatable
         return $this->hasManyThrough(
             Lease::class,
             Property::class,
+            'client_id', 
             'owner_id', 
             'property_id'
         );
+    }
+
+    public function lastBill(){
+        return $this->hasManyThrought()->lastOfMany();
     }
 
 }

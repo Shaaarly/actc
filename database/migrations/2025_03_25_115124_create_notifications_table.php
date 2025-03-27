@@ -20,12 +20,13 @@ return new class extends Migration
                 ->references('id')
                 ->on('payments')
                 ->onDelete('cascade');
-                
+
             $table->unsignedBigInteger('notification_type_id');
             $table->foreign('notification_type_id')
                 ->references('id')
                 ->on('notification_types')
                 ->onDelete('cascade');
+            $table->unique(['payment_id', 'notification_type_id']);
         });
     }
 
