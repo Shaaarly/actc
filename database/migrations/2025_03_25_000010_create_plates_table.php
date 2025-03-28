@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('plate')->unique();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')

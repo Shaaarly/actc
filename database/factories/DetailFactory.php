@@ -30,8 +30,8 @@ class DetailFactory extends Factory
         return [
             'user_id' => array_shift($users_id),
             'payment_id' => $payment->id,
-            'price' => $payment->value,
-            'detail' => fake()->sentence(),
+            'value' => $payment->value,
+            'description' => fake()->sentence(),
             'date' => $payment->created_at->format('Y-m-d'),
         ];
     }

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Property extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -35,8 +36,8 @@ class Property extends Model
         return $this->belongsTo(PropertyType::class);
     }
 
-    public function owner() {
-        return $this->belongsTo(User::class)->where('role_id', 2);
+    public function owners() {
+        return $this->belongsToMany(User::class)->where('role_id', 2);
     }
 
     public function pictures() {

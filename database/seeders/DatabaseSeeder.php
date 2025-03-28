@@ -53,8 +53,37 @@ class DatabaseSeeder extends Seeder
         Notification::factory(28)->create();
         Detail::factory(28)->create();
         Bill::factory(28)->create();
-        Picture::factory(52)->create();
-        Picture::factory(52)->create();
         Address::factory(52)->create();
+
+
+        // Pivote Properties_Users(Owners)
+        $owners = User::where('role_id', 2)->get();
+        $propert_ids = Property::pluck('id')->toArray();
+        
+        foreach ($owners as $owner) {
+            $owner->properties()->sync($propert_ids);
+        }
+        
+        $users = User::all();
+        $notification_ids = Notification::pluck('id')->toArray();
+        foreach($users as $user) {
+            //Pivote Picturable_Users
+            $pictures = Picture::factory()->count(2)->create();
+            $user->pictures()->attach($pictures->pluck('id')->toArray());
+
+            //Pivote Notifications_Users
+            $random_notification_ids = collect($notification_ids)
+                ->random(rand(1, 3))
+                ->toArray();
+            $user->notifications()->attach($random_notification_ids);
+        }
+        
+        //Pivote Picturable_Properties
+        $properties = Property::all();
+        foreach($properties as $property) {
+            $pictures = Picture::factory()->count(4)->create();
+            $property->pictures()->attach($pictures->pluck('id')->toArray());
+        }
+
     }
 }

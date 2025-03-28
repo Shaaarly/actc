@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->text('description')->nullable();
             $table->integer('value');
+            $table->softDeletes();
 
             $table->unsignedBigInteger('expense_type_id');
             $table->foreign('expense_type_id')

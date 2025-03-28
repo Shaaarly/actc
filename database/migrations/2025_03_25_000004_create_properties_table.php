@@ -23,12 +23,14 @@ return new class extends Migration
             $table->integer('rooms')->nullable();
             $table->boolean('keys');
             $table->boolean('remote');
+            $table->softDeletes();
             
             $table->unsignedBigInteger('property_type_id');
             $table->foreign('property_type_id')
                 ->references('id')
                 ->on('property_types')
                 ->onDelete('cascade');
+
         });
     }
 

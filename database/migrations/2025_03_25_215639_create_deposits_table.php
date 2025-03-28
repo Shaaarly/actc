@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->boolean('returned');
             $table->integer('amount');
+            $table->softDeletes();
 
             $table->unsignedBigInteger('lease_id')->unique();
             $table->foreign('lease_id')

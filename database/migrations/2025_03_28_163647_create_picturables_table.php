@@ -11,24 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('picture_property', function (Blueprint $table) {
-            $table->id(); // Columna autoincremental
-            $table->unsignedBigInteger('property_id');
+        Schema::create('picturables', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('picture_id');
+            $table->unsignedBigInteger('picturable_id');
+            $table->string('picturable_type');
             $table->timestamps();
-
-            // Definición de las claves foráneas
-            $table->foreign('property_id')
-                ->references('id')
-                ->on('properties')
-                ->onDelete('cascade');
 
             $table->foreign('picture_id')
                 ->references('id')
                 ->on('pictures')
                 ->onDelete('cascade');
 
-            $table->unique(['property_id', 'picture_id']);
+            $table->unique(['picture_id', 'picturable_id', 'picturable_type']);
         });
     }
 
@@ -37,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('picture_property');
+        Schema::dropIfExists('picturables');
     }
 };

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -37,8 +38,8 @@ class Payment extends Model
     //     return $this->belongsToMany(Property::class);
     // }
 
-    public function leases() {
-        return $this->hasMany(Lease::class);
+    public function lease() {
+        return $this->belongsTo(Lease::class);
     }
 
     public function owner() {

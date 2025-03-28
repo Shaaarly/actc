@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Detail extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -15,8 +16,8 @@ class Detail extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'price',
-        'detail',
+        'value',
+        'description',
         'date',
         'user_id',
         'payment_id'

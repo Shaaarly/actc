@@ -15,8 +15,6 @@ class Picture extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'picturable_type',
-        'picturable_id',
         'source'
     ];
 

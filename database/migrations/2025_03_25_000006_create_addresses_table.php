@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('country');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['addressable_id', 'addressable_type']);
         });

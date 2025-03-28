@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('surname_first');
             $table->string('surname_second');
+            $table->softDeletes();
         });
     }
 

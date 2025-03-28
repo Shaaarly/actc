@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('status', ['completed', 'incompleted', 'pending'])->default('pending');
             $table->integer('value');
             $table->text('description')->nullable();
+            $table->softDeletes();
 
             $table->unsignedBigInteger('payment_type_id');
             $table->foreign('payment_type_id')
