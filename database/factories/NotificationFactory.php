@@ -19,12 +19,17 @@ class NotificationFactory extends Factory
     public function definition(): array
     {
 
-        $payments_id = Payment::pluck('id')->toArray();
+        static $payments_id = null;
+
+        if ($payments_id === null) {
+            $payments_id = Payment::pluck('id')->shuffle()->toArray();
+        }
+        
         $notifications_type_id = NotificationType::pluck('id')->toArray();
 
         return [
             'notification_type_id' => fake()->randomElement($notifications_type_id),
-            'payment_id' => fake()->unique()->randomElement($payments_id)
+            'payment_id' => array_shift($payments_id)
         ];
     }
 }

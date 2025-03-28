@@ -20,8 +20,8 @@ class PlateFactory extends Factory
         $users_id = User::pluck('id')->toArray();
 
         return [
-            'plate' => fake()->regexify('[0-9]{4} [A-Z]{3}'),
-            'user_id' => fake()->unique()->randomElement($users_id)
+            'plate' => fake()->regexify('[0-9]{4}[A-Z]{3}'),
+            'user_id' => fake()->randomElement($users_id)
         ];
     }
 }

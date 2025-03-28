@@ -18,11 +18,18 @@ class DetailFactory extends Factory
      */
     public function definition(): array
     {
+
+        static $users_id = null;
+
+        if ($users_id === null) {
+            $users_id = User::pluck('id')->shuffle()->toArray();
+        }
+
         $payment = Payment::inRandomOrder()->first();
 
         return [
-            'user_id' => fake()->randomElement($users_id),
-            'payment_id' => $payment->_id,
+            'user_id' => array_shift($users_id),
+            'payment_id' => $payment->id,
             'price' => $payment->value,
             'detail' => fake()->sentence(),
             'date' => $payment->created_at->format('Y-m-d'),

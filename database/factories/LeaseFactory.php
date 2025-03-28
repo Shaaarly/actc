@@ -18,20 +18,20 @@ class LeaseFactory extends Factory
      */
     public function definition(): array
     {
-        $client_id = User::where('role_id', 1)->pluck('id')->toArray();
-        $owner_id = User::where('role_id', 2)->pluck('id')->toArray();
-        $property_id = Property::pluck('id')->toArray();
+        static $properties_id = null;
+
+        if ($properties_id === null) {
+            $properties_id = Property::pluck('id')->shuffle()->toArray();
+        }
 
         return [
-            'keys_returned' => fake()->boolean(),
-            'remote_returned' => fake()->boolean(),
-            'description' => fake()->sentence(),
-            'amount' => fake()->numberBetween(12, 600),
-            'client_id' => fake()->randomElement($client_id),
-            'owner_id' => fake()->randomElement($owner_id),
-            'property_id' => fake()->unique()->randomElement($property_id),
-            'start_date' => fake()->date(),
-            'end_date' => fake()->date()
+            'keys_returned'    => fake()->boolean(),
+            'remote_returned'    => fake()->boolean(),
+            'start_lease' => fake()->date(),
+            'end_lease'   => fake()->date(),
+            'property_id' => array_shift($properties_id),
+            'client_id'   => User::where('role_id', 1)->pluck('id')->random(),
+            'owner_id'    => User::where('role_id', 2)->pluck('id')->random(),
         ];
     }
 }

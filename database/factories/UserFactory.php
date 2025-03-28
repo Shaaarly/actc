@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use App\Models\Name;
+use App\Models\Role;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
@@ -23,18 +26,18 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        static $nameCounter = 1;
+        $names_id = Name::pluck('id')->toArray();
+        $roles_id = Role::pluck('id')->toArray();
 
         return [
-            'name' => fake()->name(),
-            'dni' => fake()->bothify('########?'),
+            'dni' => fake()->regexify('[0-9]{8}[A-Z]{1}'),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'phone' => fake()->unique()->phoneNumber(),
-            'role_id' => 1,
-            'name_id' => $nameCounter++
+            'role_id' => fake()->randomElement($roles_id),
+            'name_id' => fake()->unique()->randomElement($names_id)
         ];
     }
 

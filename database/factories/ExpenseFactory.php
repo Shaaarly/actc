@@ -4,6 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\Property;
+use App\Models\PropertyType;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Expense>
  */
@@ -16,11 +19,15 @@ class ExpenseFactory extends Factory
      */
     public function definition(): array
     {
+
+        $properties_id = Property::pluck('id')->toArray();
+        $types_id = PropertyType::pluck('id')->toArray();
+
         return [
             'value' => fake()->numberBetween(10, 1000),
             'description' => fake()->sentence(),
-            'expense_type_id' => fake()->numberBetween(1, 7),
-            'property_id' => fake()->numberBetween(1, 18)
+            'expense_type_id' => fake()->randomElement($types_id),
+            'property_id' => fake()->randomElement($properties_id)
         ];
     }
 }

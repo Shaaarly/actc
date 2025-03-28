@@ -20,7 +20,7 @@ class RolesTableSeeder extends Seeder
         $role_names = include database_path('data/roles.php');
 
         foreach($role_names as $role_name) {
-            PropertyType::create($role_name);
+            Role::create($role_name);
         }
     }
 }

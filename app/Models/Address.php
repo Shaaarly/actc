@@ -18,6 +18,7 @@ class Address extends Model
         'addressable_type',
         'addressable_id',
         'postal_code',
+        'province',
         'street_name',
         'entrance_number',
         'apartment_number',
