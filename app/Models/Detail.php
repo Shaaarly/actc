@@ -16,9 +16,6 @@ class Detail extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'value',
-        'description',
-        'date',
         'user_id',
         'payment_id'
     ];

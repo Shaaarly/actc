@@ -22,7 +22,8 @@ class Lease extends Model
         'keys_returned',
         'remote_returned',
         'start_date',
-        'ending_date'
+        'ending_date',
+        'value'
     ];
 
     public function property() {

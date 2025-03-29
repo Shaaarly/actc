@@ -19,6 +19,7 @@ class Payment extends Model
         'value',
         'description',
         'status',
+        'date',
         'payment_type_id'
     ];
 

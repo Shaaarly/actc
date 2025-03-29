@@ -25,6 +25,8 @@ class Property extends Model
         'rooms',
         'remote',
         'keys',
+        'letter',
+        'number',
         'property_type_id'
     ];
 

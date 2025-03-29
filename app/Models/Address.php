@@ -21,6 +21,7 @@ class Address extends Model
         'postal_code',
         'province',
         'street_name',
+        'passageway',
         'entrance_number',
         'apartment_number',
         'city',

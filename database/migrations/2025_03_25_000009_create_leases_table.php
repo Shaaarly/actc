@@ -17,13 +17,11 @@ return new class extends Migration
             // Date guarda año-mes-dia
             $table->date('start_lease');
             $table->date('end_lease')->nullable();
-            
             $table->boolean('keys_returned');
             $table->boolean('remote_returned');
             $table->unsignedSmallInteger('value');
             $table->softDeletes();
             
-            // Definición de las claves foráneas
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')
                 ->references('id')
