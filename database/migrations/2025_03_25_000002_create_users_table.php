@@ -14,6 +14,13 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('dni')->unique();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->unsignedBigInteger('name_id');
             $table->foreign('name_id')
@@ -26,14 +33,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('roles')
                 ->onDelete('cascade');
-                
-            $table->string('email')->unique()->nullable();
-            $table->string('phone')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 

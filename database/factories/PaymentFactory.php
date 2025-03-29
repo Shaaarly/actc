@@ -27,9 +27,10 @@ class PaymentFactory extends Factory
 
         return [
             'payment_type_id' => fake()->randomElement($payments_id),
-            'value' => fake()->numberBetween(12, 600),
+            'value' => fake()->numberBetween(10, 600),
             'description' => fake()->sentence(),
-            'status' => fake()->randomElement($status)
+            'status' => fake()->randomElement($status),
+            'date' => fake()->date(),
         ];
     }
 }

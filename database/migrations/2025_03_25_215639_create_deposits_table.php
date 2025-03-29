@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->text('description')->nullable();
             $table->boolean('returned');
-            $table->integer('amount');
+            $table->unsignedSmallInteger('amount');
             $table->softDeletes();
 
             $table->unsignedBigInteger('lease_id')->unique();

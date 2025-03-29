@@ -29,4 +29,8 @@ class Expense extends Model
     public function property() {
         return $this->belongsTo(Property::class);
     }
+
+    public function payment() {
+        return $this->belongsTo(Payment::class);
+    }
 }

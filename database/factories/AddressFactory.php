@@ -46,6 +46,7 @@ class AddressFactory extends Factory
             'city'             => fake()->city(),
             'province'         => fake()->state(),
             'street_name'      => fake()->streetAddress(),
+            'passageway'       => fake()->streetAddress(),
             'entrance_number'  => fake()->numberBetween(1, 255),
             'floor'            => fake()->numberBetween(1, 14),
             'block'            => fake()->regexify('[A-E]{1}'),

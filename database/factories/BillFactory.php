@@ -25,8 +25,7 @@ class BillFactory extends Factory
             $details_id = Detail::pluck('id')->shuffle()->toArray();
         }
 
-        return [
-            
+        return [ 
             'detail_id' => array_shift($details_id),
             'source' => fake()->imageUrl()
         ];

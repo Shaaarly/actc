@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->text('description')->nullable();
-            $table->integer('value');
+            $table->unsignedSmallInteger('value');
             $table->softDeletes();
 
             $table->unsignedBigInteger('expense_type_id');

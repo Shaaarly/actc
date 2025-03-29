@@ -29,6 +29,7 @@ class LeaseFactory extends Factory
             'remote_returned'    => fake()->boolean(),
             'start_lease' => fake()->date(),
             'end_lease'   => fake()->date(),
+            'value' => fake()->numberBetween(10, 600),
             'property_id' => array_shift($properties_id),
             'client_id'   => User::where('role_id', 1)->pluck('id')->random(),
             'owner_id'    => User::where('role_id', 2)->pluck('id')->random(),

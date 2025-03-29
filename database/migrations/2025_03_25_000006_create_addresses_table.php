@@ -16,12 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('addressable_id');
             $table->string('addressable_type');
             $table->string('street_name');
-            $table->integer('postal_code');
+            $table->string('passageway')->nullable();
+            $table->unsignedInteger('postal_code');
             $table->string('province');
-            $table->integer('entrance_number');
-            $table->string('block')->nullable();
-            $table->integer('floor')->nullable();
-            $table->integer('apartment_number');
+            $table->unsignedTinyInteger('entrance_number');
+            $table->char('block')->nullable();
+            $table->unsignedTinyInteger('floor')->nullable();
+            $table->unsignedTinyInteger('apartment_number');
             $table->string('city');
             $table->string('country');
             $table->timestamps();

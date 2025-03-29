@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->enum('status', ['completed', 'incompleted', 'pending'])->default('pending');
-            $table->integer('value');
+            $table->unsignedSmallInteger('value');
             $table->text('description')->nullable();
+            $table->date('date');
             $table->softDeletes();
 
             $table->unsignedBigInteger('payment_type_id');

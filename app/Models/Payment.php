@@ -49,4 +49,12 @@ class Payment extends Model
     public function notifications() {
         return $this->hasMany(Notification::class);
     }
+
+    public function expense() {
+        return $this->belongsTo(Expense::class);
+    }
+
+    public function deposit() {
+        return $this->belongsTo(Deposit::class);
+    }
 }

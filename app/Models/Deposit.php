@@ -25,4 +25,8 @@ class Deposit extends Model
     public function lease() {
         return $this->belongsTo(Lease::class);
     }
+
+    public function payment() {
+        return $this->belongsTo(Payment::class);
+    }
 }

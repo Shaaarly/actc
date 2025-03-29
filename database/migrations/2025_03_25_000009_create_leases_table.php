@@ -20,6 +20,7 @@ return new class extends Migration
             
             $table->boolean('keys_returned');
             $table->boolean('remote_returned');
+            $table->unsignedSmallInteger('value');
             $table->softDeletes();
             
             // Definición de las claves foráneas

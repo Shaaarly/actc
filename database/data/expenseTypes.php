@@ -22,5 +22,11 @@ return [
     ],
     [
         'expense_type' => 'phone'
+    ],
+    [
+        'expense_type' => 'apportionment'
+    ],
+    [
+        'expense_type' => 'irpf'
     ]
 ];

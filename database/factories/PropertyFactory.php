@@ -23,11 +23,13 @@ class PropertyFactory extends Factory
         $types_id = PropertyType::pluck('id')->toArray();
 
         return [
-            'price' => fake()->numberBetween(12, 600),
+            'price' => fake()->numberBetween(5000, 200000),
             'available' => fake()->boolean(),
             'ocupied' => fake()->boolean(),
             'description' => fake()->sentence(),
             'area' => fake()->numberBetween(12, 120),
+            'number' => fake()->numberBetween(1, 250),
+            'letter' => fake()->regexify('[A-E]{1}'),
             'bathrooms' => fake()->randomDigit(),
             'rooms' => fake()->randomDigit(),
             'remote' => fake()->boolean(60),
