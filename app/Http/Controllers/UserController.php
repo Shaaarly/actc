@@ -8,6 +8,7 @@ use App\Models\Address;
 use App\Models\Role;
 use App\Models\Plate;
 use Illuminate\Http\Request;
+use Illuminate\Http\Request\UserRequest;
 use \Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -44,7 +45,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         // Obetener solo los datos que han sido validados
         $data = $request->validated();
@@ -113,7 +114,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
 
         $data = $request->validated();
