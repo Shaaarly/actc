@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('surname_first');
-            $table->string('surname_second');
+            $table->string('surname_second')->nullable();
             $table->softDeletes();
         });
     }
