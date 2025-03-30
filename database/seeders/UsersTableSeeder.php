@@ -19,7 +19,8 @@ class UsersTableSeeder extends Seeder
             'email' => 'example@example.com',
             'password' => 'password',
             'name_id' => 1,
-            'role_id' => 3
+            'role_id' => 3,
+            'description' => 'user admin'
         ]);
     }
 }

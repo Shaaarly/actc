@@ -63,6 +63,7 @@ class UserController extends Controller
         $user->phone = $data['phone'];
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
+        $user->description = $data['description'];
         $user->save();
 
         Address::create([
@@ -94,7 +95,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show')->with('user', $user);
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -103,9 +104,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         if ($user->role_id == 1) {
-            return view('clients.edit', ['user' => $user]);
+            return view('clients.edit', compact('user'));
         } elseif ($user->role_id == 2) {
-            return view('owners.edit', ['user' => $user]);
+            return view('owners.edit', compact('user'));
         } else {
             return redirect()->route('users.index')->with('error', 'Rol no permitido para edición.');
         }
@@ -122,6 +123,7 @@ class UserController extends Controller
         $user->dni   = $data['dni'];
         $user->phone = $data['phone'];
         $user->email = $data['email'];
+        $user->description = $data['description'];
         $user->save();
 
         $user->name->update([
@@ -143,7 +145,7 @@ class UserController extends Controller
                 'apartment_number' => $data['apartment_number'],
             ]);
         } else {
-            \App\Models\Address::create([
+            Address::create([
                 'addressable_type' => 'user',
                 'addressable_id'   => $user->id,
                 'country'          => $data['country'],
