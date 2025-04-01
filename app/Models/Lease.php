@@ -21,8 +21,8 @@ class Lease extends Model
         'owner_id',
         'keys_returned',
         'remote_returned',
-        'start_date',
-        'ending_date',
+        'start_lease',
+        'ending_lease',
         'value'
     ];
 
@@ -30,12 +30,13 @@ class Lease extends Model
         return $this->belongsTo(Property::class);
     }
 
-    public function client() {
-        return $this->belongsTo(User::class)->where('role_id', 1);
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id');
     }
 
     public function owner() {
-        return $this->belongsTo(User::class)->where('role_id', 2);
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function deposit() {

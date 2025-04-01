@@ -36,9 +36,15 @@ body {
 }
 
 .main-content {
-    margin-left: 150px;
     margin-top: 60px;
-    width: calc(100% - 150px);
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overflow: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 a {
@@ -52,3 +58,4 @@ img {
 ul {
     list-style: none;
 }
+

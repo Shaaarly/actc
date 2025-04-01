@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'phone' => fake()->unique()->phoneNumber(),
+            'phone' => fake()->unique()->regexify('[67][0-9]{8}'),
             'role_id' => fake()->randomElement($roles_id),
             'name_id' => fake()->unique()->randomElement($names_id),
             'description' => fake()->sentence()

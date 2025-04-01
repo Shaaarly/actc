@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use App\Models\Detail;
+use App\Models\Payment;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Bill>
@@ -19,14 +19,14 @@ class BillFactory extends Factory
     public function definition(): array
     {
 
-        static $details_id = null;
+        static $payments_id = null;
 
-        if ($details_id === null) {
-            $details_id = Detail::pluck('id')->shuffle()->toArray();
+        if ($payments_id === null) {
+            $payments_id = Payment::pluck('id')->shuffle()->toArray();
         }
 
         return [ 
-            'detail_id' => array_shift($details_id),
+            'payment_id' => array_shift($payments_id),
             'source' => fake()->imageUrl()
         ];
     }

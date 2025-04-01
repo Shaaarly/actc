@@ -39,7 +39,29 @@ class Property extends Model
     }
 
     public function owners() {
-        return $this->belongsToMany(User::class)->where('role_id', 2);
+        return $this->belongsToMany(
+            User::class,
+            'owner_property',
+            'property_id',
+            'owner_id'
+        )->where('role_id', 2);
+    }
+    
+
+    // public function clients() {
+    //     return $this->belongsToMany(User::class, 'leases', 'property_id', 'client_id')
+    //                 ->withPivot(
+    //                     'keys_returned',
+    //                     'remote_returned',
+    //                     'start_lease',
+    //                     'ending_lease',
+    //                     'value'
+    //                 );
+    // }
+    public function clients()
+    {
+        return $this->belongsToMany(User::class, 'leases', 'property_id', 'client_id')
+                    ->withPivot('start_lease', 'end_lease');
     }
 
     public function pictures() {
@@ -48,5 +70,10 @@ class Property extends Model
 
     public function address() {
         return $this->morphOne(Address::class, 'addressable');
+    }
+
+    public function leases()
+    {
+        return $this->hasMany(Lease::class, 'property_id');
     }
 }

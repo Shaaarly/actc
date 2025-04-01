@@ -62,17 +62,30 @@ class User extends Authenticatable
 
     public function notifications() {
         return $this->belongsToMany(Notification::class, 'notification_user', 'user_id', 'notification_id')
-                    ->withTimestamps()
-                    // ->withPivot('read_at', 'sent_at') // si tienes columnas extra en la pivote
-                    ;
+                    ->withTimestamps();
     }
 
     // public function payments() {
     //     return $this->hasMany(Payment::class);
     // }
 
-    public function properties() {
-        return $this->belongsToMany(Property::class);
+    public function propertiesOwned() {
+        return $this->belongsToMany(
+            Property::class,
+            'owner_property',
+            'owner_id',
+            'property_id'
+        );
+    }
+    
+
+    public function leasesAsOwner() {
+        return $this->hasMany(Lease::class, 'owner_id');
+    }
+
+    public function leasesAsClient()
+    {
+        return $this->hasMany(Lease::class, 'client_id');
     }
 
     public function details() {
@@ -87,18 +100,19 @@ class User extends Authenticatable
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function leases() {
-        return $this->hasManyThrough(
-            Lease::class,
-            Property::class,
-            'client_id', 
-            'owner_id', 
-            'property_id'
-        );
+    public function lastBill(){
+        return $this->hasManyThrough(Bill::class, Payment::class, 'owner_id', 'payment_id')
+                ->latestOfMany();
     }
 
-    public function lastBill(){
-        return $this->hasManyThrought()->lastOfMany();
+    public function syncPlates(array $plates){
+        $this->plates()->delete();
+
+        $filtered = array_filter($plates, fn($p) => trim($p) !== '');
+    
+        foreach ($filtered as $plateText) {
+            $this->plates()->create(['plate' => $plateText]);
+        }
     }
 
 }

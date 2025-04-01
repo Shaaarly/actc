@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('property_user', function (Blueprint $table) {
-            $table->id(); // Columna autoincremental
-            $table->unsignedBigInteger('user_id');
+        Schema::create('owner_property', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('owner_id');
             $table->unsignedBigInteger('property_id');
             $table->timestamps();
 
-            // Definición de las claves foráneas
-            $table->foreign('user_id')
+            $table->foreign('owner_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
@@ -28,7 +27,7 @@ return new class extends Migration
                 ->on('properties')
                 ->onDelete('cascade');
 
-            $table->unique(['user_id', 'property_id']);
+            $table->unique(['owner_id', 'property_id']);
         });
     }
 
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('property_user');
+        Schema::dropIfExists('owner_property');
     }
 };

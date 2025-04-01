@@ -22,23 +22,24 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:2|max:60',
-            'surname_first' => 'required|min:2|max:30',
-            'surname_second' => 'min:2|max:30',
-            'phone' => 'required|phone',
-            'email' => 'required|email',
-            'dni' => 'required|min:9|max:10',
-            'country' => 'required|min:3|max:56',
-            'province' => 'required|min:3|max:44',
-            'city' => 'required|min:3|max:58',
-            'postal_code' => 'required|min:3|max:10',
-            'street_name' => 'required|min:3|max:52',
-            'entrance_number' => 'required|min:1|max:4',
-            'block' => 'min:1|max:1',
+            'name'             => 'required|min:2|max:60',
+            'surname_first'    => 'required|min:2|max:30',
+            'surname_second'   => 'nullable|min:2|max:30',  // Se añade nullable
+            'phone'            => 'required|digits_between:9,10',
+            'email'            => 'required|email',
+            'dni'              => 'required|min:9|max:10',
+            'country'          => 'required|min:3|max:56',
+            'province'         => 'required|min:3|max:44',
+            'city'             => 'required|min:3|max:58',
+            'postal_code'      => 'required|min:3|max:10',
+            'street_name'      => 'required|min:3|max:52',
+            'entrance_number'  => 'required|min:1|max:4',
+            'block'            => 'nullable|min:1|max:1',      // Se añade nullable
             'apartment_number' => 'required|min:1|max:4',
-            'floor' => 'required|min:1|max:2',
-            'passageway' => 'min:3|max:60',
-            'plate' => 'min:6|max:10'
+            'floor'            => 'required|min:1|max:2',
+            'passageway'       => 'nullable|min:3|max:60',     // Se añade nullable
+            'plates'           => ['nullable', 'array'],
+            'plates.*'         => ['nullable', 'string', 'max:255'],
         ];
     }
 

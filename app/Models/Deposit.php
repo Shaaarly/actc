@@ -19,7 +19,7 @@ class Deposit extends Model
         'returned',
         'description',
         'amount',
-        'leases_id'
+        'lease_id'
     ];
 
     public function lease() {

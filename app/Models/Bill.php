@@ -16,10 +16,10 @@ class Bill extends Model
      */
     protected $fillable = [
         'source',
-        'detail_id'
+        'payment_id'
     ];
 
-    public function detail() {
-        return $this->belongsTo(Detail::class);
+    public function payment() {
+        return $this->belongsTo(Payment::class);
     }
 }

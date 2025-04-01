@@ -25,6 +25,12 @@ return new class extends Migration
                 ->references('id')
                 ->on('payment_types')
                 ->onDelete('cascade');
+
+            $table->unsignedBigInteger('lease_id');
+            $table->foreign('lease_id')
+                ->references('id')
+                ->on('leases')
+                ->onDelete('cascade');
         });
     }
 

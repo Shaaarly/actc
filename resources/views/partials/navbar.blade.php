@@ -49,14 +49,14 @@
                 @if (Route::has('login'))
                     {{-- Botón de Login si NO está logueado --}}
                     <li class="nav-item ms-2">
-                        <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
+                        <a class="btn btn-outline-primary btn-lg" href="{{ route('login') }}">Login</a>
                     </li>
                 @endif
               @endauth
 
               {{-- Botón Modo Claro/Oscuro --}}
               <li class="nav-item ms-2">
-                <button class="btn btn-secondary" id="toggleMode" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cambiar a modo oscuro">
+                <button class="btn btn-outline-secondary btn-lg" id="toggleMode" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cambiar a modo oscuro">
                   <i class="fa-solid fa-moon"></i>
                   {{-- <i class="fa-solid fa-sun"></i> --}}
               </button>

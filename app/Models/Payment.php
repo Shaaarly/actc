@@ -20,15 +20,16 @@ class Payment extends Model
         'description',
         'status',
         'date',
-        'payment_type_id'
+        'payment_type_id',
+        'lease_id'
     ];
 
-    public function detail() {
-        return $this->hasOne(Detail::class);
+    public function contract() {
+        return $this->hasOne(Contract::class);
     }
 
-    public function paymentTypes() {
-        return $this->belongsTo(PaymentsType::class);
+    public function paymentType() {
+        return $this->belongsTo(PaymentType::class);
     }
 
     // public function clients() {
@@ -43,9 +44,9 @@ class Payment extends Model
         return $this->belongsTo(Lease::class);
     }
 
-    public function owner() {
-        return $this->belongsTo(User::class)->where('role_id', 2);
-    }
+    // public function leaseOwner() {
+    //     return $this->belongsTo(User::class, 'owner_id');
+    // }
 
     public function notifications() {
         return $this->hasMany(Notification::class);

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->timestamps();
             $table->string('source');
             
-            $table->unsignedBigInteger('detail_id');
-            $table->foreign('detail_id')
+            $table->unsignedBigInteger('payment_id');
+            $table->foreign('payment_id')
                 ->references('id')
-                ->on('details')
+                ->on('payments')
                 ->onDelete('cascade');
         });
     }

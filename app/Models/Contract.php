@@ -16,7 +16,7 @@ class Contract extends Model
      */
     protected $fillable = [
         'source',
-        'leases_id'
+        'lease_id'
     ];
 
     public function lease() {

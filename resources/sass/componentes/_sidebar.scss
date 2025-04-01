@@ -2,10 +2,8 @@
 @use '../base/mixins' as m;
 
 .sidebar {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  height: 100vh;
+  margin-top: 50px;
+  height: calc(100vh - 50px);
 }
 /* Ajusta el alto a tu gusto; aquí usamos 60px para cada enlace */
 .sidebar-link {
@@ -14,7 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: left;
-    height: 70px;
+    height: 69.5px;
     border-radius: 0.25rem;        /* Borde redondeado leve */
     text-decoration: none;
     font-weight: 600;

@@ -15,7 +15,7 @@
       <div class="row g-0 align-items-center">
         <!-- Imagen del usuario en columna fija (col-auto) -->
         <div class="col-auto">
-          <img src="{{ asset($user->profile_image ?? 'images/default-user.jpg') }}" 
+          <img src="{{ asset($user->profile_image ?? 'images/avatar.png') }}" 
                class="img-fluid rounded-start" 
                alt="{{ $user->name->name }}"
                style="width: 100px; height: 100px;">
@@ -29,24 +29,26 @@
             <p class="card-text"><small class="text-muted">{{ $user->dni }}</small></p>
           </div>
         </div>
-        <div class="col-auto">
-            <div class="d-grid gap-2">
-                <form action="{{ route('users.show', $user) }}" method="GET">
-                    @csrf
-                    <button class="btn btn-info btn-lg w-100 " type="submit">Ver Usuario</button>
-                    </form>
-                <form action="{{ route('users.update', $user) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <button class="btn btn-primary btn-lg w-100" type="submit">Editar Usuario</button>
-                </form>
-                <form action="{{ route('users.destroy', $user) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-lg w-100" type="submit">Eliminar Usuario</button>
-                </form>
-            </div>
+
+        <!-- Botones CRUD -->
+        <div class="col d-flex justify-content-end align-items-center">
+          <div class="d-flex gap-3 p-4">
+              <form action="{{ route('users.show', $user) }}" method="GET">
+                  @csrf
+                  <button class="btn btn-info btn-lg" type="submit">Ver Usuario</button>
+              </form>
+              <form action="{{ route('users.edit', $user) }}" method="GET">
+                  @csrf
+                  <button class="btn btn-primary btn-lg" type="submit">Editar Usuario</button>
+              </form>
+              <form action="{{ route('users.destroy', $user) }}" method="POST">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn btn-danger btn-lg" type="submit">Eliminar Usuario</button>
+              </form>
           </div>
+      </div>
+      
           
       </div>
     </div>

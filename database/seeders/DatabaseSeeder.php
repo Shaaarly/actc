@@ -17,7 +17,6 @@ use App\Models\Picture;
 use App\Models\Address;
 use App\Models\Lease;
 use App\Models\Contract;
-use App\Models\Detail;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,7 +25,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
         $this->call([
             NamesTableSeeder::class,
             ExpenseTypesTableSeeder::class,
@@ -37,53 +35,69 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
         ]);
 
-        Name::factory(33)->create();
-        User::factory(30)->client()->create();
-        User::factory(3)->owner()->create();
-        Plate::factory(10)->create();
-        Property::factory(10)->garage()->create();
-        Property::factory(2)->house()->create();
-        Property::factory(1)->comercial()->create();
-        Property::factory(5)->storage()->create();
-        Expense::factory(50)->create();
-        Lease::factory(14)->create();
-        Contract::factory(14)->create();
-        Deposit::factory(14)->create();
-        Payment::factory(28)->create();
-        Notification::factory(28)->create();
-        Detail::factory(28)->create();
-        Bill::factory(28)->create();
-        Address::factory(52)->create();
+        // Generar Nombres
+        Name::factory(40)->create();
 
+        // Crear Usuarios
+        $clients = User::factory(30)->client()->create();
+        $owners = User::factory(3)->owner()->create();
 
-        // Pivote Properties_Users(Owners)
-        $owners = User::where('role_id', 2)->get();
-        $propert_ids = Property::pluck('id')->toArray();
-        
+        // Asignar propiedades a propietarios
+        $properties = Property::factory(18)->create();
         foreach ($owners as $owner) {
-            $owner->properties()->sync($propert_ids);
-        }
-        
-        $users = User::all();
-        $notification_ids = Notification::pluck('id')->toArray();
-        foreach($users as $user) {
-            //Pivote Picturable_Users
-            $pictures = Picture::factory()->count(2)->create();
-            $user->pictures()->attach($pictures->pluck('id')->toArray());
-
-            //Pivote Notifications_Users
-            $random_notification_ids = collect($notification_ids)
-                ->random(rand(1, 3))
-                ->toArray();
-            $user->notifications()->attach($random_notification_ids);
-        }
-        
-        //Pivote Picturable_Properties
-        $properties = Property::all();
-        foreach($properties as $property) {
-            $pictures = Picture::factory()->count(4)->create();
-            $property->pictures()->attach($pictures->pluck('id')->toArray());
+            $owner->propertiesOwned()->attach($properties->pluck('id')->random(rand(3, 6)));
         }
 
+        // Crear Placas para usuarios
+        Plate::factory(10)->create();
+
+        // Crear Leases entre clientes, propiedades y propietarios
+        foreach ($clients as $client) {
+            for ($i = 0; $i < rand(1, 3); $i++) {
+                $property = $properties->random();
+                $owner = $property->owners()->inRandomOrder()->first();
+                if ($owner) {
+                    Lease::factory()->create([
+                        'client_id' => $client->id,
+                        'property_id' => $property->id,
+                        'owner_id' => $owner->id,
+                    ]);
+                }
+            }
+        }
+
+        // Cargar todos los leases para relaciones posteriores
+        $leases = Lease::all();
+
+        // Crear contratos, depósitos, pagos, notificaciones, facturas
+        Contract::factory($leases->count())->create();
+        Deposit::factory($leases->count())->create();
+        Payment::factory(2 * $leases->count())->create();
+        Notification::factory(40)->create();
+        Bill::factory(40)->create();
+
+        // Crear gastos
+        Expense::factory(50)->create();
+
+        // Crear direcciones para usuarios y propiedades
+        foreach (User::all() as $user) {
+            Address::factory()->forUser($user)->create();
+        }
+        foreach (Property::all() as $property) {
+            Address::factory()->forProperty($property)->create();
+        }   
+
+        // Asignar fotos a usuarios y propiedades
+        foreach (User::all() as $user) {
+            $pictures = Picture::factory(2)->create();
+            $user->pictures()->attach($pictures->pluck('id'));
+            $user->notifications()->attach(Notification::inRandomOrder()->take(rand(1, 3))->pluck('id'));
+        }
+
+        foreach ($properties as $property) {
+            $pictures = Picture::factory(3)->create();
+            $property->pictures()->attach($pictures->pluck('id'));
+        }
     }
+
 }

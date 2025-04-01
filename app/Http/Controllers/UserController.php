@@ -8,7 +8,9 @@ use App\Models\Address;
 use App\Models\Role;
 use App\Models\Plate;
 use Illuminate\Http\Request;
-use Illuminate\Http\Request\UserRequest;
+
+use App\Http\Requests\UserRequest;
+
 use \Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -45,10 +47,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
-        // Obetener solo los datos que han sido validados
-        $data = $request->validated();
+        $data = $request->all();
 
         $name = Name::create([
             'name'           => $data['name'],
@@ -80,12 +81,12 @@ class UserController extends Controller
             'apartment_number' => $data['apartment_number'],
         ]);
 
-        if (!empty($data['plate'])) {
-            Plate::create([
-                'user_id' => $user->id,
-                'plate'   => $data['plate'],
-            ]);
+        foreach($data['plates'] as $plate) {
+            if(trim($plate) !== '') {
+                $user->plates()->create(['plate' => $plate]);
+            }
         }
+        
 
         return redirect()->route('users.show', $user)->with('success', 'Usuario creado correctamente.');
     }
@@ -103,22 +104,19 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if ($user->role_id == 1) {
-            return view('clients.edit', compact('user'));
-        } elseif ($user->role_id == 2) {
-            return view('owners.edit', compact('user'));
-        } else {
-            return redirect()->route('users.index')->with('error', 'Rol no permitido para edición.');
-        }
+        return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
 
-        $data = $request->validated();
+        $data = $request->all();
+
+        // $data = $request->all();
+        // dd($data);
 
         $user->dni   = $data['dni'];
         $user->phone = $data['phone'];
@@ -160,12 +158,13 @@ class UserController extends Controller
             ]);
         }
 
-        if (!empty($data['plate'])) {
-            Plate::updateOrCreate(
-                ['user_id' => $user->id],
-                ['plate' => $data['plate']]
-            );
-        }
+        $user->plates()->delete();
+
+            foreach ($data['plates'] as $plate) {
+                if (trim($plate) !== '') {
+                    $user->plates()->create(['plate' => $plate]);
+                }
+            }
 
         return redirect()->route('users.show', $user)->with('success', 'Usuario actualizado correctamente.');
     }
