@@ -28,6 +28,7 @@ class UserRequest extends FormRequest
             'phone'            => 'required|digits_between:9,10',
             'email'            => 'required|email',
             'dni'              => 'required|min:9|max:10',
+            'description'              => 'required|min:2|max:255',
             'country'          => 'required|min:3|max:56',
             'province'         => 'required|min:3|max:44',
             'city'             => 'required|min:3|max:58',

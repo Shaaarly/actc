@@ -47,17 +47,6 @@ class Property extends Model
         )->where('role_id', 2);
     }
     
-
-    // public function clients() {
-    //     return $this->belongsToMany(User::class, 'leases', 'property_id', 'client_id')
-    //                 ->withPivot(
-    //                     'keys_returned',
-    //                     'remote_returned',
-    //                     'start_lease',
-    //                     'ending_lease',
-    //                     'value'
-    //                 );
-    // }
     public function clients()
     {
         return $this->belongsToMany(User::class, 'leases', 'property_id', 'client_id')

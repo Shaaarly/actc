@@ -16,7 +16,7 @@ body {
 
     display: flex;
     flex-direction: column;
-    background-color: v.$negro;
+    background-color: v.$blanco;
     color: v.$blanco;
     font-family: v.$fuente_principal;
     font-size: 1.6rem;
@@ -36,7 +36,6 @@ body {
 }
 
 .main-content {
-    margin-top: 60px;
     overflow-y: auto;
     height: calc(100vh - 60px);
     scrollbar-width: none;

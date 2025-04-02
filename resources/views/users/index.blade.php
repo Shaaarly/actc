@@ -11,7 +11,7 @@
     </form>
   </div>
   @forelse ($users as $user)
-    <div class="card mb-3 w-100">
+    <div class="card border-primary mb-3 w-100">
       <div class="row g-0 align-items-center">
         <!-- Imagen del usuario en columna fija (col-auto) -->
         <div class="col-auto">

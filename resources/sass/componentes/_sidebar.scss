@@ -1,13 +1,15 @@
 @use '../base/variables' as v;
 @use '../base/mixins' as m;
 
+$bg: #007bff;
 .sidebar {
-  margin-top: 50px;
-  height: calc(100vh - 50px);
+  // margin-top: 50px;
+  height: 100vh;
+  background-color: lighten($bg, 20%);
 }
 /* Ajusta el alto a tu gusto; aquí usamos 60px para cada enlace */
 .sidebar-link {
-    background-color: var(--bs-primary);
+    background-color: lighten($bg, 20%);
     color: #fff !important;        /* Forzamos el color blanco */
     display: flex;
     align-items: center;
@@ -18,6 +20,9 @@
     font-weight: 600;
     transition: background-color 0.2s, color 0.2s;
     width: 100%;
+    i {
+      margin-right: 10px;
+    }
   }
   
   /* Cuando el enlace está activo (coincide con la ruta actual) */

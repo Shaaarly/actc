@@ -110,11 +110,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
 
-        $data = $request->all();
-
+        $data = $request->validated();
         // $data = $request->all();
         // dd($data);
 
@@ -158,13 +157,7 @@ class UserController extends Controller
             ]);
         }
 
-        $user->plates()->delete();
-
-            foreach ($data['plates'] as $plate) {
-                if (trim($plate) !== '') {
-                    $user->plates()->create(['plate' => $plate]);
-                }
-            }
+        $user->syncPlates($data['plates']);
 
         return redirect()->route('users.show', $user)->with('success', 'Usuario actualizado correctamente.');
     }

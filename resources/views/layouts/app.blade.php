@@ -11,19 +11,25 @@
   <script src="https://kit.fontawesome.com/f03bcf4820.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  @include('partials.navbar')
   <div class="d-flex" style="min-height: 100vh;">
-        <div class="bg-primary p-0 sidebar">
-            @include('partials.sidebar')
-          </div>
-          {{-- <div class="col-1 col-sm-1 col-md-1 bg-primary p-0 sidebar z-2">
-            @include('partials.sidebar')
-          </div> --}}
-          
-          <div class="container main-content flex-grow-1 p-3">
-            @yield('content')
-          </div>
+    <!-- Sidebar: ocupa toda la altura a la izquierda -->
+    <div class=" p-0 sidebar">
+      @include('partials.sidebar')
     </div>
+  
+    <!-- Contenedor derecho: navbar arriba y contenido principal abajo -->
+    <div class="d-flex flex-column flex-grow-1">
+      <!-- Navbar (gris) en la parte superior del contenedor derecho -->
+      <div class="bg-secondary">
+        @include('partials.navbar')
+      </div>
+      <!-- Contenido principal (blanco) que ocupa el resto del espacio -->
+      <div class="flex-grow-1 bg-white p-3 main-content">
+        @yield('content')
+      </div>
+    </div>
+  </div>
+  
   
   @stack('scripts')
 </body>
