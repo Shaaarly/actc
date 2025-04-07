@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light top-bar">
+<nav class="navbar navbar-expand-lg navbar-light top-bar">
   <div class="container">
 
       {{-- Logo + Título --}}
@@ -56,7 +56,7 @@
 
               {{-- Botón Modo Claro/Oscuro --}}
               <li class="nav-item ms-2">
-                <button class="btn btn-outline-secondary btn-lg" id="toggleMode" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cambiar a modo oscuro">
+                <button class="btn btn-outline-dark btn-lg" id="toggleMode" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cambiar a modo oscuro">
                   <i class="fa-solid fa-moon"></i>
                   {{-- <i class="fa-solid fa-sun"></i> --}}
               </button>

@@ -7,12 +7,16 @@ $tablet: 768px;
 $desktop: 1024px;
 
 // Colores
-$azul: #0da6f3;
-$rojo: #cb0000;
-$verde:#329f00;
-$negro: #1a1b15;
+$primary: #0da6f3;
+$secondary: #fca42a;
+$success:#329f00;
+$info:#00ffee;
+$danger: #cb0000;
+$light: #FFFFFF;
+$dark: #1a1b15;
 
-$blanco: #FFFFFF;
+
+
 $gris: #e1e1e1;
 
 $separacion: 5rem;
@@ -21,4 +25,7 @@ $separacion: 5rem;
 $delgada: 300;
 $regular : 400;
 $bold: 700;
-$black: 900;
+
+
+@import "node_modules/bootstrap/scss/bootstrap";
+// @import 'bootstrap/dist/css/bootstrap.min.css';

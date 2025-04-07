@@ -23,8 +23,8 @@
         border-radius: 1rem;
 
         &:disabled {
-            background-color: lighten(v.$negro, 30%);
-            color: v.$blanco;
+            background-color: lighten(v.$dark, 30%);
+            color: v.$light;
             cursor: not-allowed;
         }
     }
@@ -33,6 +33,16 @@
 }
 
 form {
-
-    color: black;
+    color: v.$dark;
 }
+
+input, select {
+    height: 5rem;
+    &::placeholder, ::selection {
+        font-size: 1.4rem;
+    }
+}
+
+option {
+    font-size: 1.4rem;
+} 

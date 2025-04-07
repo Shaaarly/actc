@@ -14,7 +14,7 @@
                     style="width: 100px; height: 100px; object-fit: cover;">
                 
 
-                <h3 class="card-title mb-0 ms-3">
+                <h3 class="card-title mb-0 ms-3 text-primary">
                 {{ $user->name->name }}
                 {{ $user->name->surname_first }}
                 {{ $user->name->surname_second }}
@@ -63,12 +63,36 @@
     @if($user->leasesAsClient->isNotEmpty())
         <div class="card mt-3">
             <div class="card-body">
-                <h3 class="text-dark">
+                <h3 class="text-primary">
                     {{ $user->leasesAsClient->count() === 1 ? 'Propiedad' : 'Propiedades' }} alquilada{{ $user->leasesAsClient->count() === 1 ? '' : 's' }}:
                 </h3>
+                <hr>
                 
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-dark"><strong>ID:</strong> {{ $user->leasesAsClient->first()->id }}</li>
+                    @foreach($user->leasesAsClient->all() as $property)
+                        <li class="list-group-item d-flex justify-content-between align-items-center mt-4">
+                            <div>
+                                <p class="mb-0 text-dark"><strong>Tipo:</strong> {{ $property->type->property_type }}</p>
+                                <p class="mb-0 text-dark"><strong>Dirección:</strong> {{ $property->address->street_name }}</p>
+                            
+                                @if(isset($property->number))
+                                    <p class="mb-4 text-dark"><strong>Identificador:</strong> {{ $property->number }}{{ $property->letter }}</p>
+                                @endif
+                            </div>
+                            <div class="d-flex gap-3">
+                                <form action="{{ route('properties.show', $property) }}" method="GET">
+                                    @csrf
+                                    <button class="btn btn-warning btn-lg text-white" type="submit">Ver Propiedad</button>
+                                </form>
+                                <form action="{{ route('properties.edit', $property) }}" method="GET">
+                                    @csrf
+                                    <button class="btn btn-primary btn-lg text-white" type="submit">Editar Propiedad</button>
+                                </form>
+                            </div>
+                        </li>
+                        
+                    @endforeach
+                    
                 </ul>
             </div>
         </div>

@@ -3,15 +3,15 @@
 
 return [
     [
-        'property_type' => 'garage'
+        'property_type' => 'Garage'
     ],
     [
-        'property_type' => 'storage_room'
+        'property_type' => 'Trastero'
     ],
     [
-        'property_type' => 'house'
+        'property_type' => 'Piso'
     ],
     [
-        'property_type' => 'comercial_space'
+        'property_type' => 'Local Comercial'
     ]
 ];

@@ -3,18 +3,18 @@
 
 return [
     [
-        'payment_type' => 'biweekly'
+        'payment_type' => 'Bisemanal'
     ],
     [
-        'payment_type' => 'monthly'
+        'payment_type' => 'Mensual'
     ],
     [
-        'payment_type' => 'quartly'
+        'payment_type' => 'Trimestral'
     ],
     [
-        'payment_type' => 'biannual'
+        'payment_type' => 'Semestral'
     ],
     [
-        'payment_type' => 'annual'
+        'payment_type' => 'Anual'
     ]
 ];

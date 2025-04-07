@@ -10,11 +10,19 @@ use App\Models\Plate;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\UserRequest;
+use App\Services\UserService;
 
 use \Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    public function __construct (
+        private UserService $user_service
+    ) {
+
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -47,47 +55,18 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $data = $request->all();
-
-        $name = Name::create([
-            'name'           => $data['name'],
-            'surname_first'  => $data['surname_first'],
-            'surname_second' => $data['surname_second'] ?? null,
-        ]);
+        $data = $request->validated();
 
         $user = new User();
-        $user->name_id = $name->id;
-        $user->role_id = 1;
-        $user->dni = $data['dni'];
-        $user->phone = $data['phone'];
-        $user->email = $data['email'];
-        $user->password = Hash::make($data['password']);
-        $user->description = $data['description'];
-        $user->save();
+        $this->user_service->createOrUpdateUser($user, $data);
 
-        Address::create([
-            'addressable_type' => 'user',
-            'addressable_id'   => $user->id,
-            'country'          => $data['country'],
-            'province'         => $data['province'],
-            'city'             => $data['city'],
-            'postal_code'      => $data['postal_code'],
-            'street_name'      => $data['street_name'],
-            'entrance_number'  => $data['entrance_number'],
-            'floor'            => $data['floor'],
-            'block'            => $data['block'] ?? null,
-            'apartment_number' => $data['apartment_number'],
-        ]);
-
-        foreach($data['plates'] as $plate) {
-            if(trim($plate) !== '') {
-                $user->plates()->create(['plate' => $plate]);
-            }
+        if(isset($data['plates'])){
+            $this->user_service->syncPlates($user, $data['plates']);
         }
+        $user->save();
         
-
         return redirect()->route('users.show', $user)->with('success', 'Usuario creado correctamente.');
     }
 
@@ -114,54 +93,16 @@ class UserController extends Controller
     {
 
         $data = $request->validated();
-        // $data = $request->all();
-        // dd($data);
 
-        $user->dni   = $data['dni'];
-        $user->phone = $data['phone'];
-        $user->email = $data['email'];
-        $user->description = $data['description'];
-        $user->save();
+        $this->user_service->createOrUpdateUser($user, $data);
 
-        $user->name->update([
-            'name'           => $data['name'],
-            'surname_first'  => $data['surname_first'],
-            'surname_second' => $data['surname_second'] ?? null,
-        ]);
-
-        if ($user->address) {
-            $user->address->update([
-                'country'          => $data['country'],
-                'province'         => $data['province'],
-                'city'             => $data['city'],
-                'postal_code'      => $data['postal_code'],
-                'street_name'      => $data['street_name'],
-                'entrance_number'  => $data['entrance_number'],
-                'floor'            => $data['floor'],
-                'block'            => $data['block'] ?? null,
-                'apartment_number' => $data['apartment_number'],
-            ]);
-        } else {
-            Address::create([
-                'addressable_type' => 'user',
-                'addressable_id'   => $user->id,
-                'country'          => $data['country'],
-                'province'         => $data['province'],
-                'city'             => $data['city'],
-                'postal_code'      => $data['postal_code'],
-                'street_name'      => $data['street_name'],
-                'entrance_number'  => $data['entrance_number'],
-                'floor'            => $data['floor'],
-                'block'            => $data['block'] ?? null,
-                'apartment_number' => $data['apartment_number'],
-            ]);
+        if(isset($data['plates'])){
+            $this->user_service->syncPlates($user, $data['plates']);
         }
-
-        $user->syncPlates($data['plates']);
 
         return redirect()->route('users.show', $user)->with('success', 'Usuario actualizado correctamente.');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.

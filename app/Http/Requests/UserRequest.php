@@ -24,23 +24,24 @@ class UserRequest extends FormRequest
         return [
             'name'             => 'required|min:2|max:60',
             'surname_first'    => 'required|min:2|max:30',
-            'surname_second'   => 'nullable|min:2|max:30',  // Se añade nullable
+            'surname_second'   => 'nullable|min:2|max:30',
             'phone'            => 'required|digits_between:9,10',
             'email'            => 'required|email',
             'dni'              => 'required|min:9|max:10',
-            'description'              => 'required|min:2|max:255',
+            'description'      => 'required|min:2|max:255',
             'country'          => 'required|min:3|max:56',
             'province'         => 'required|min:3|max:44',
             'city'             => 'required|min:3|max:58',
             'postal_code'      => 'required|min:3|max:10',
             'street_name'      => 'required|min:3|max:52',
             'entrance_number'  => 'required|min:1|max:4',
-            'block'            => 'nullable|min:1|max:1',      // Se añade nullable
+            'block'            => 'nullable|min:1|max:1', 
             'apartment_number' => 'required|min:1|max:4',
             'floor'            => 'required|min:1|max:2',
-            'passageway'       => 'nullable|min:3|max:60',     // Se añade nullable
+            'passageway'       => 'nullable|min:3|max:60',
             'plates'           => ['nullable', 'array'],
             'plates.*'         => ['nullable', 'string', 'max:255'],
+            'password'         => ['string', 'max:32']
         ];
     }
 
@@ -63,7 +64,8 @@ class UserRequest extends FormRequest
             'apartment_number' => 'El número de apartamento debe tener al menos 1 dígito y máximo 4.',
             'floor' => 'El número debe tener al menos 1 dígito y máximo 2.',
             'passageway' => 'El nombre del pasage debe tener al menos 3 carácteresto y máximo 60.',
-            'plate' => 'Introduzca una matrícula válida.'
+            'plate' => 'Introduzca una matrícula válida.',
+            'password' => 'Introduzca una contraseña válida.'
         ];
     }
 }

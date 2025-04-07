@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('entrance_number');
             $table->char('block')->nullable();
             $table->unsignedTinyInteger('floor')->nullable();
-            $table->unsignedTinyInteger('apartment_number');
+            $table->unsignedTinyInteger('apartment_number')->nullable();
             $table->string('city');
             $table->string('country');
             $table->timestamps();

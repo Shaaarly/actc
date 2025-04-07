@@ -85,7 +85,12 @@ class User extends Authenticatable
 
     public function leasesAsClient()
     {
-        return $this->hasMany(Lease::class, 'client_id');
+        return $this->hasManyThrough(
+            Property::class,
+            Lease::class,
+            'client_id',
+            'id'
+        );
     }
 
     public function details() {
@@ -100,19 +105,9 @@ class User extends Authenticatable
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function lastBill(){
-        return $this->hasManyThrough(Bill::class, Payment::class, 'owner_id', 'payment_id')
-                ->latestOfMany();
-    }
-
-    public function syncPlates(array $plates){
-        $this->plates()->delete();
-
-        $filtered = array_filter($plates, fn($p) => trim($p) !== '');
-    
-        foreach ($filtered as $plateText) {
-            $this->plates()->create(['plate' => $plateText]);
-        }
-    }
+    // public function lastBill(){
+    //     return $this->hasManyThrough(Bill::class, Payment::class, 'owner_id', 'payment_id')
+    //             ->latestOfMany();
+    // } SERVICE!
 
 }

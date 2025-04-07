@@ -35,7 +35,7 @@ class Property extends Model
     }
 
     public function type() {
-        return $this->belongsTo(PropertyType::class);
+        return $this->belongsTo(PropertyType::class, 'property_type_id', 'id');
     }
 
     public function owners() {
@@ -64,5 +64,16 @@ class Property extends Model
     public function leases()
     {
         return $this->hasMany(Lease::class, 'property_id');
+    }
+
+
+    public function syncOwners(array $plates){
+        $this->owners()->delete();
+
+        $filtered = array_filter($owners, fn($p) => trim($p) !== '');
+    
+        foreach ($filtered as $plateText) {
+            $this->owners()->create(['plate' => $plateText]);
+        }
     }
 }

@@ -3,15 +3,15 @@
 
 return [
     [
-        'title' => 'completed',
+        'title' => 'Completado',
         'message' => 'Pago completado con éxito'
     ],
     [
-        'title' => 'delayed',
+        'title' => 'Retrasado',
         'message' => 'Pago retrasado, pendiente de pago'
     ],
     [
-        'title' => 'pending',
+        'title' => 'Pendiente',
         'message' => 'Pago pendiente de confirmar'
     ]
 ];

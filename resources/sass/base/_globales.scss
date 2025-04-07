@@ -16,8 +16,8 @@ body {
 
     display: flex;
     flex-direction: column;
-    background-color: v.$blanco;
-    color: v.$blanco;
+    background-color: v.$light;
+    color: v.$light;
     font-family: v.$fuente_principal;
     font-size: 1.6rem;
 }
@@ -28,7 +28,7 @@ body {
     box-sizing: inherit;
 }
 
-.contenedor {
+.container {
     width: 95%;
     max-width: 1200px;
     margin: 0 auto;
@@ -38,6 +38,9 @@ body {
 .main-content {
     overflow-y: auto;
     height: calc(100vh - 60px);
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
     overflow: auto;
@@ -58,3 +61,14 @@ ul {
     list-style: none;
 }
 
+/* Para Chrome, Safari, Edge y Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Para Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}

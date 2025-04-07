@@ -3,30 +3,30 @@
 
 return [
     [
-        'expense_type' => 'water'
+        'expense_type' => 'Agua'
     ],
     [
-        'expense_type' => 'electricity'
+        'expense_type' => 'Luz'
     ],
     [
-        'expense_type' => 'insurance'
+        'expense_type' => 'Seguro'
     ],
     [
-        'expense_type' => 'administrator'
+        'expense_type' => 'Administrador'
     ],
     [
-        'expense_type' => 'iva'
+        'expense_type' => 'IVA'
     ],
     [
-        'expense_type' => 'ibi'
+        'expense_type' => 'IBI'
     ],
     [
-        'expense_type' => 'phone'
+        'expense_type' => 'Teléfono'
     ],
     [
-        'expense_type' => 'apportionment'
+        'expense_type' => 'Derrama'
     ],
     [
-        'expense_type' => 'irpf'
+        'expense_type' => 'IRPF'
     ]
 ];

@@ -1,4 +1,6 @@
+@use '../base/variables' as v;
+
 .card {
-    background-color: white;
+    background-color: v.$light;
     box-shadow:  2px 2px 2px 2px rgb(176, 176, 176);
 }

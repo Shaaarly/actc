@@ -1,21 +1,21 @@
 @use '../base/variables' as v;
 @use '../base/mixins' as m;
 
-$bg: #007bff;
 .sidebar {
   // margin-top: 50px;
   height: 100vh;
-  background-color: lighten($bg, 20%);
+  background-color: lighten(v.$primary, 20%);
+  display: flex;
+  align-items: center;
 }
 /* Ajusta el alto a tu gusto; aquí usamos 60px para cada enlace */
 .sidebar-link {
-    background-color: lighten($bg, 20%);
+    background-color: lighten(v.$primary, 20%);
     color: #fff !important;        /* Forzamos el color blanco */
     display: flex;
     align-items: center;
     justify-content: left;
-    height: 69.5px;
-    border-radius: 0.25rem;        /* Borde redondeado leve */
+    height: 69px;       /* Borde redondeado leve */
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.2s, color 0.2s;
@@ -28,7 +28,7 @@ $bg: #007bff;
   /* Cuando el enlace está activo (coincide con la ruta actual) */
   .sidebar-link.active {
     background-color: #fff !important;
-    color: var(--bs-primary) !important;
+    color: v.$primary !important;
   }
   
   /* Efecto hover opcional */
@@ -47,5 +47,9 @@ $bg: #007bff;
 @media (min-width: 768px) {
   .sidebar-fixed {
     width: 16.67%;
+  }
+
+  .sidebar-link {
+    height: 60px;
   }
 }

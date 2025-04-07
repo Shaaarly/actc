@@ -1,12 +1,12 @@
 <div class="d-flex flex-column sidebar-fixed">
-    <ul class="nav flex-column gap-2">
+    <ul class="nav flex-column gap-1">
         <!-- Dashboard -->
         <li class="nav-item">
             <a 
                 href="{{ route('dashboard') }}" 
                 class="mt-3 nav-link sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
             >
-            <i class="fa-solid fa-home"></i> Dashboard
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
             </a>
         </li>
 
@@ -33,10 +33,30 @@
         <!-- Propiedades -->
         <li class="nav-item">
             <a 
-                href="{{ route('properties') }}" 
-                class="nav-link sidebar-link {{ request()->routeIs('settings') ? 'active' : '' }}"
+                href="{{ route('properties.index') }}" 
+                class="nav-link sidebar-link {{ request()->routeIs('properties.index') ? 'active' : '' }}"
             >
             <i class="fa-solid fa-building"></i> Propiedades
+            </a>
+        </li>
+
+        <!-- Pagos -->
+        <li class="nav-item">
+            <a 
+                href="{{ route('payments') }}" 
+                class="nav-link sidebar-link {{ request()->routeIs('payments') ? 'active' : '' }}"
+            >
+            <i class="fa-solid fa-dollar-sign"></i> Pagos
+            </a>
+        </li>
+
+        <!-- Gastos -->
+        <li class="nav-item">
+            <a 
+                href="{{ route('expenses') }}" 
+                class="nav-link sidebar-link {{ request()->routeIs('expenses') ? 'active' : '' }}"
+            >
+            <i class="fa-solid fa-chart-simple"></i> Gastos
             </a>
         </li>
 
@@ -47,16 +67,6 @@
                 class="nav-link sidebar-link {{ request()->routeIs('settings') ? 'active' : '' }}"
             >
             <i class="fa-solid fa-money-bill-trend-up"></i> Contabilidad
-            </a>
-        </li>
-
-        <!-- Pagos -->
-        <li class="nav-item">
-            <a 
-                href="{{ route('payments') }}" 
-                class="nav-link sidebar-link {{ request()->routeIs('settings') ? 'active' : '' }}"
-            >
-            <i class="fa-solid fa-dollar-sign"></i> Pagos
             </a>
         </li>
 
