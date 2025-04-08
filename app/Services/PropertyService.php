@@ -48,7 +48,7 @@ class PropertyService {
                 'apartment_number' => $data['apartment_number'],
             ]);
         } else {
-            Address::create([
+            $property->address()->create([
                 'addressable_type' => 'property',
                 'addressable_id'   => $property->id,
                 'country'          => $data['country'],
@@ -63,5 +63,6 @@ class PropertyService {
                 'apartment_number' => $data['apartment_number'],
             ]);
         }
+
     }
 }

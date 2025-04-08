@@ -71,7 +71,7 @@ class UserService {
                 'apartment_number' => $data['apartment_number'] ?? null,
             ]);
         } else {
-            Address::create([
+            $user->address()->create([
                 'addressable_type' => 'user',
                 'addressable_id'   => $user->id,
                 'country'          => $data['country'],
