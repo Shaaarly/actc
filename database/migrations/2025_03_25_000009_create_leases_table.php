@@ -40,6 +40,12 @@ return new class extends Migration
                 ->on('properties')
                 ->onDelete('cascade');
 
+            $table->unsignedBigInteger('payment_type_id');
+            $table->foreign('payment_type_id')
+                ->references('id')
+                ->on('payment_types')
+                ->onDelete('cascade');
+
             $table->unique(['client_id', 'property_id', 'start_lease']);
         });
     }

@@ -19,11 +19,17 @@ class Lease extends Model
         'property_id',
         'client_id',
         'owner_id',
+        'payment_type_id',
         'keys_returned',
         'remote_returned',
         'start_lease',
         'ending_lease',
         'value'
+    ];
+
+    protected $casts = [
+        'start_lease' => 'date',
+        'ending_lease' => 'date'
     ];
 
     public function property() {
@@ -49,5 +55,9 @@ class Lease extends Model
 
     public function payments() {
         return $this->hasMany(Payment::class);
+    }
+
+    public function paymentType() {
+        return $this->belongsTo(PaymentType::class);
     }
 }

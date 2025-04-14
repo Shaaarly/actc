@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\Property;
 use App\Models\Lease;
+use App\Models\PaymentType;
 
 /**
  * @extends Factory<Lease>
@@ -16,6 +17,8 @@ class LeaseFactory extends Factory
 
     public function definition(): array
     {
+
+        $payments_id = PaymentType::pluck('id')->toArray();
 
         if (empty(static::$properties_id)) {
             static::$properties_id = Property::pluck('id')->shuffle()->toArray();
@@ -35,6 +38,7 @@ class LeaseFactory extends Factory
             'start_lease'     => $startDate,
             'ending_lease'    => $endDate,
             'value'           => fake()->numberBetween(300, 1500),
+            'payment_type_id' => fake()->randomElement($payments_id)
         ];
     }
 }

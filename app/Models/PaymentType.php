@@ -22,4 +22,8 @@ class PaymentType extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function leases() {
+        return $this->hasMany(Lease::class);
+    }
+
 }

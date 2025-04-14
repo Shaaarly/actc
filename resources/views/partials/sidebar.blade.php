@@ -13,8 +13,8 @@
         <!-- Alquileres -->
         <li class="nav-item">
             <a 
-                href="{{ route('leases') }}" 
-                class="nav-link sidebar-link {{ request()->routeIs('settings') ? 'active' : '' }}"
+                href="{{ route('leases.index') }}" 
+                class="nav-link sidebar-link {{ request()->routeIs('leases.index') ? 'active' : '' }}"
             >
             <i class="fa-solid fa-building-user"></i> Alquileres
             </a>
