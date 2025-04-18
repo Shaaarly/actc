@@ -44,8 +44,8 @@ class PropertyRequest extends FormRequest
             'apartment_number'  => 'required|min:1|max:4',
             'floor'             => 'required|min:1|max:2',
             'passageway'        => 'nullable|min:3|max:60',
-            'owners'            => ['nullable', 'array'],
-            'owners.*'          => ['nullable', 'integer', 'exists:users,id'],
+            'owners'            => ['required', 'array'],
+            'owners.*'          => ['required', 'integer', 'exists:users,id'],
         ];
     }
 

@@ -44,8 +44,18 @@ class DatabaseSeeder extends Seeder
 
         // Asignar propiedades a propietarios
         $properties = Property::factory(18)->create();
+        foreach ($properties as $property) {
+            $randomOwner = $owners->random();
+            $property->owners()->attach($randomOwner->id);
+        }
         foreach ($owners as $owner) {
-            $owner->propertiesOwned()->attach($properties->pluck('id')->random(rand(3, 6)));
+            $extraPropertyIds = $properties
+                ->pluck('id')
+                ->shuffle()
+                ->take(rand(2, 5))
+                ->all();
+
+            $owner->propertiesOwned()->syncWithoutDetaching($extraPropertyIds);
         }
 
         // Crear Placas para usuarios
@@ -53,20 +63,24 @@ class DatabaseSeeder extends Seeder
 
         // Crear Leases entre clientes, propiedades y propietarios
         foreach ($clients as $client) {
-            for ($i = 0; $i < rand(1, 3); $i++) {
+            for ($i = 0, $total = rand(1, 3); $i < $total; $i++) {
                 $property = $properties->random();
-                $owner = $property->owners()->inRandomOrder()->first();
-                if ($owner) {
-                    Lease::factory()->create([
-                        'client_id' => $client->id,
-                        'property_id' => $property->id,
-                        'owner_id' => $owner->id,
-                    ]);
+                $owner = $property->owners->random() ?? null;
+
+                $parent = Lease::factory()->create([
+                    'client_id'   => $client->id,
+                    'owner_id'    => $owner->id,
+                    'property_id' => $property->id,
+                ]);
+
+                foreach (range(1, rand(0, 2)) as $n) {
+                    $parent = Lease::factory()
+                                ->renewalOf($parent)
+                                ->create();
                 }
             }
         }
 
-        // Cargar todos los leases para relaciones posteriores
         $leases = Lease::all();
 
         // Crear contratos, depósitos, pagos, notificaciones, facturas

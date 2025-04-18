@@ -10,8 +10,16 @@ use App\Models\Property;
 use App\Models\PropertyType;
 use App\Models\PaymentType;
 
+use App\Services\LeaseService;
+
 class LeaseController extends Controller
 {
+
+    public function __construct (
+        private LeaseService $lease_service
+    ) {
+
+    }
     /**
      * Display a listing of the resource.
      */
@@ -85,9 +93,7 @@ class LeaseController extends Controller
 
         $lease = new Lease();
 
-        // Service
-
-        $lease->save();
+        $this->lease_service->createOrUpdateLease($lease, $data);
 
         return redirect()->route('leases.show', $lease)->with('success', 'Alquiler dado de alta correctamente');
     }
@@ -119,7 +125,9 @@ class LeaseController extends Controller
     {
         $data = $request->all();
 
-        // Service
+        $this->lease_service->createOrUpdateLease($lease, $data);
+
+        $lease->save();
 
         return redirect()->route('leases.show', $lease)->with('success', 'Alquiler modificado correctamente');
     }

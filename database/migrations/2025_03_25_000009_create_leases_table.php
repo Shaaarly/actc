@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('leases', function (Blueprint $table) {
-            $table->id(); // Columna autoincremental
+            $table->id();
             $table->timestamps();
             // Date guarda año-mes-dia
             $table->date('start_lease');
             $table->date('ending_lease')->nullable();
             $table->boolean('keys_returned');
             $table->boolean('remote_returned');
+            $table->boolean('active');
+            $table->boolean('renewal');
             $table->unsignedSmallInteger('value');
             $table->softDeletes();
             
@@ -45,6 +47,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('payment_types')
                 ->onDelete('cascade');
+
+                $table->foreignId('original_lease_id')
+                ->nullable()
+                ->constrained('leases')
+                ->nullOnDelete();
 
             $table->unique(['client_id', 'property_id', 'start_lease']);
         });

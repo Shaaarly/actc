@@ -54,6 +54,24 @@
                 <li class="list-group-item text-dark">
                     <strong>Precio:</strong> ${{ number_format($lease->value, 2) }}
                 </li>
+                <li class="list-group-item text-dark">
+                    <strong>Llaves devueltas:</strong>
+                     @if($lease->keys_returned)
+                        Si
+                     @else
+                        No
+                     @endif
+                </li>
+                @if($lease->property->remote)
+                <li class="list-group-item text-dark">
+                    <strong>Mando devuelto:</strong>
+                     @if($lease->remote_returned)
+                        Si
+                     @else
+                        No
+                     @endif
+                </li>
+                @endif
             </ul>
         </div>
     </div>

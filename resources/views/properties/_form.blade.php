@@ -31,7 +31,7 @@
                 @endphp
                 <div>
                     @foreach ($propertyOwners as $owner)
-                        <div required class="form-check form-check-inline">
+                        <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="owners[]" id="owner_{{ $owner->id }}" value="{{ $owner->id }}"
                                 {{ in_array($owner->id, $selectedOwners) ? 'checked' : '' }}>
                             <label class="form-check-label" for="owner_{{ $owner->id }}">

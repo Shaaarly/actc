@@ -7,38 +7,79 @@ use App\Models\User;
 use App\Models\Property;
 use App\Models\Lease;
 use App\Models\PaymentType;
+use Carbon\Carbon; // <<< asegurarte de importarlo
 
 /**
  * @extends Factory<Lease>
  */
 class LeaseFactory extends Factory
 {
-    protected static $properties_id;
+    protected static $properties;
 
     public function definition(): array
     {
-
         $payments_id = PaymentType::pluck('id')->toArray();
 
-        if (empty(static::$properties_id)) {
-            static::$properties_id = Property::pluck('id')->shuffle()->toArray();
+        if (static::$properties === null) {
+            static::$properties = Property::with(['address', 'type'])
+                                         ->get()
+                                         ->shuffle()
+                                         ->all();
         }
 
-        $property_id = array_shift(static::$properties_id) ?? Property::inRandomOrder()->first()->id;
+        $property = array_shift(static::$properties)
+                  ?? Property::with(['address', 'type'])
+                             ->inRandomOrder()
+                             ->first();
 
-        $startDate = fake()->dateTimeBetween('-1 year', 'now');
-        $endDate = fake()->dateTimeBetween($startDate, '+1 year');
+        $startDate = $this->faker->dateTimeBetween('-1 year', 'now');
+        $endDate   = $this->faker->dateTimeBetween($startDate, '+1 year');
+        $active    = ! $property->available;
 
         return [
-            'property_id'     => $property_id,
-            'client_id' => User::where('role_id', 1)->inRandomOrder()->first()->id ?? User::factory()->create(['role_id' => 1])->id,
-            'owner_id' => User::where('role_id', 2)->inRandomOrder()->first()->id ?? User::factory()->create(['role_id' => 2])->id,
-            'keys_returned'   => fake()->boolean(30),
-            'remote_returned' => fake()->boolean(40),
-            'start_lease'     => $startDate,
-            'ending_lease'    => $endDate,
-            'value'           => fake()->numberBetween(300, 1500),
-            'payment_type_id' => fake()->randomElement($payments_id)
+            'property_id'      => $property->id,
+            'client_id'        => User::where('role_id', 1)->inRandomOrder()->first()->id,
+            'owner_id'         => User::where('role_id', 2)->inRandomOrder()->first()->id,
+            'original_lease_id'=> null,           // leases base no tienen padre
+            'keys_returned'    => $this->faker->boolean(30),
+            'remote_returned'  => $this->faker->boolean(40),
+            'active'           => $active,
+            'renewal'          => false,          // es un lease original
+            'start_lease'      => $startDate,
+            'ending_lease'     => $endDate,
+            'value'            => $this->faker->numberBetween(300, 1500),
+            'payment_type_id'  => $this->faker->randomElement($payments_id),
         ];
+    }
+
+    /**
+     * Crea un lease que sea renovación de otro.
+     *
+     * @param  Lease  $parent
+     * @return static
+     */
+    public function renewalOf(Lease $parent)
+    {
+        return $this->state(function () use ($parent) {
+            // la renovación empieza justo después de que acabe el padre
+            $start = Carbon::parse($parent->ending_lease)->addDay();
+            // le damos una duración aleatoria hasta +1 año
+            $end = Carbon::parse($start)->addMonths(rand(1, 12));
+
+            return [
+                'property_id'      => $parent->property_id,
+                'client_id'        => $parent->client_id,
+                'owner_id'         => $parent->owner_id,
+                'original_lease_id'=> $parent->id,
+                'renewal'          => true,
+                'start_lease'      => $start,
+                'ending_lease'     => $end,
+                'value'            => $parent->value,
+                'payment_type_id'  => $parent->payment_type_id,
+                'keys_returned'    => false,
+                'remote_returned'  => false,
+                'active'           => true,
+            ];
+        });
     }
 }

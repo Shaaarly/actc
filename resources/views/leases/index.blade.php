@@ -97,6 +97,8 @@
                         @if($lease->value)
                           <p class="mb-0 text-dark">
                               <strong>Precio:</strong> {{ $lease->value }}€
+                              | <strong> Tipo de pago:</strong>
+                            {{ $lease->paymentType->payment_type }}
                           </p>
                         @endif
                     </div>

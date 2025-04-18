@@ -60,4 +60,12 @@ class Lease extends Model
     public function paymentType() {
         return $this->belongsTo(PaymentType::class);
     }
+
+    public function originalLease() {
+        return $this->belongsTo(Lease::class, 'original_lease_id');
+    }
+
+    public function renewals() {
+        return $this->hasMany(Lease::class, 'original_lease_id');
+    }
 }
