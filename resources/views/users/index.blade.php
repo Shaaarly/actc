@@ -11,22 +11,46 @@
     </form>
   </div>
   @forelse ($users as $user)
-    <div class="card border-primary mb-3 w-100">
+    
+    @php
+      $leases = $user->leasesAsClient;
+      $style = '';
+
+      foreach ($leases as $lease) {
+        if($lease->active) {
+          $style = 'border-success';
+        } else {
+          $style = 'border-off';
+        }
+      }
+      
+
+    @endphp
+
+    <div class="card {{ $style }} border-4 mb-3 w-100">
       <div class="row g-0 align-items-center">
         <!-- Imagen del usuario en columna fija (col-auto) -->
         <div class="col-auto">
           <img src="{{ asset($user->profile_image ?? 'images/avatar.png') }}" 
                class="img-fluid rounded-start" 
-               alt="{{ $user->name->name }}"
+               alt="{{ $user->email }}"
                style="width: 100px; height: 100px;">
         </div>
         <!-- Información del usuario ocupa el resto del espacio -->
         <div class="col">
           <div class="card-body">
             <h5 class="card-title mb-0">
-              {{ $user->name->name }} {{ $user->name->surname_first }} {{ $user->name->surname_second }}
+              @if($user->name)
+                {{ $user->name->name }} {{ $user->name->surname_first }} {{ $user->name->surname_second }}
+              @else
+                {{ $user->email }}
+              @endif
             </h5>
-            <p class="card-text"><small class="text-muted">{{ $user->dni }}</small></p>
+            <p class="card-text">
+              <small class="text-muted">
+                {{ $user->phone }} 
+              </small>
+            </p>
           </div>
         </div>
 

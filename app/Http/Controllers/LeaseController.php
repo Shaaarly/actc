@@ -25,25 +25,31 @@ class LeaseController extends Controller
      */
     public function index(Request $request)
     {
-        // Recupera los parámetros de filtro y orden de la request
         $sort_by = $request->input('sort_by');
         $property_type_id = $request->input('property_type_id');
+        $active = $request->input('active');
+        $client_id = $request->input('client_id');
 
-        // Inicia la consulta con eager loading de las relaciones necesarias
         $query = Lease::with([
             'property.address',
             'property.type',
             'client.name',
         ]);
 
-        // Filtra por tipo de propiedad si se ha seleccionado uno
         if ($property_type_id) {
             $query->whereHas('property', function ($q) use ($property_type_id) {
                 $q->where('property_type_id', $property_type_id);
             });
         }
 
-        // Aplica ordenación basada en el parámetro sort_by
+        if (!is_null($active)) {
+            $query->where('active', $active);
+        }
+
+        if ($client_id) {
+            $query->where('client_id', $client_id);
+        }
+
         if ($sort_by) {
             switch ($sort_by) {
                 case 'start_lease_asc':
@@ -60,16 +66,15 @@ class LeaseController extends Controller
                     break;
             }
         } else {
-            // Orden por defecto: por fecha de inicio en orden descendente
             $query->orderBy('start_lease', 'desc');
         }
 
         $leases = $query->get();
-
-        // Para poblar el dropdown de tipos de propiedad en el filtro
         $propertyTypes = PropertyType::all();
+        $clients = User::with('name')->where('role_id', 1)->get();
 
-        return view('leases.index', compact('leases', 'propertyTypes'));
+        return view('leases.index', compact('leases', 'propertyTypes', 'clients'));
+
     }
 
     /**
@@ -137,6 +142,7 @@ class LeaseController extends Controller
      */
     public function destroy(Lease $lease)
     {
+        $lease->active = 0;
         $lease->delete();
         return redirect()->route('leases.index')->with('success', 'Contrato finalizado correctamente');
     }

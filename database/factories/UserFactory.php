@@ -38,7 +38,8 @@ class UserFactory extends Factory
             'phone' => fake()->unique()->regexify('[67][0-9]{8}'),
             'role_id' => fake()->randomElement($roles_id),
             'name_id' => fake()->unique()->randomElement($names_id),
-            'description' => fake()->sentence()
+            'description' => fake()->sentence(),
+            'confirmed' => fake()->boolean(100)
         ];
     }
 

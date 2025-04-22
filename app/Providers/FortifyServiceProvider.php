@@ -6,6 +6,10 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+
+use App\Models\User;                  
+use Illuminate\Support\Facades\Hash;  
+
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -15,58 +19,47 @@ use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
+        // Las acciones “oficiales” que Fortify provee
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
+        // Autenticación: email + password
         Fortify::authenticateUsing(function (Request $request) {
-
             $user = User::where('email', $request->email)->first();
-    
-     
-    
-            if ($user &&
-    
-                Hash::check($request->password, $user->password)) {
-    
+            if ($user && Hash::check($request->password, $user->password)) {
                 return $user;
-    
             }
-    
         });
 
+        // Limitadores de tasa
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
-            return Limit::perMinute(5)->by($throttleKey);
+            $key = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
+            return Limit::perMinute(5)->by($key);
         });
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        // Vista para el login
-        Fortify::loginView(function () {
-            return view('auth.login');
-        });
+        // 1) Vistas de login y registro
+        Fortify::loginView(fn() => view('auth.login'));
+        Fortify::registerView(fn() => view('auth.register'));
 
-        // Vista para el registro
-        Fortify::registerView(function () {
-            return view('auth.register');
-        });
+        // 2) Vista para solicitar el enlace de restablecimiento
+        Fortify::requestPasswordResetLinkView(fn() => view('auth.passwords.request'));
+
+        // 3) Vista para restablecer la contraseña (recibe el Request con token + email)
+        Fortify::resetPasswordView(fn(Request $request) =>
+            view('auth.passwords.reset', ['request' => $request])
+        );
     }
 }

@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Property;
 use App\Models\Lease;
 use App\Models\PaymentType;
-use Carbon\Carbon; // <<< asegurarte de importarlo
+use Carbon\Carbon;
 
 /**
  * @extends Factory<Lease>
@@ -40,11 +40,11 @@ class LeaseFactory extends Factory
             'property_id'      => $property->id,
             'client_id'        => User::where('role_id', 1)->inRandomOrder()->first()->id,
             'owner_id'         => User::where('role_id', 2)->inRandomOrder()->first()->id,
-            'original_lease_id'=> null,           // leases base no tienen padre
+            'original_lease_id'=> null,
             'keys_returned'    => $this->faker->boolean(30),
             'remote_returned'  => $this->faker->boolean(40),
             'active'           => $active,
-            'renewal'          => false,          // es un lease original
+            'renewal'          => false,
             'start_lease'      => $startDate,
             'ending_lease'     => $endDate,
             'value'            => $this->faker->numberBetween(300, 1500),
@@ -61,9 +61,7 @@ class LeaseFactory extends Factory
     public function renewalOf(Lease $parent)
     {
         return $this->state(function () use ($parent) {
-            // la renovación empieza justo después de que acabe el padre
             $start = Carbon::parse($parent->ending_lease)->addDay();
-            // le damos una duración aleatoria hasta +1 año
             $end = Carbon::parse($start)->addMonths(rand(1, 12));
 
             return [

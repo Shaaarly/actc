@@ -32,7 +32,7 @@
                 </div>
                 <div class="card-footer text-center">
                     ¿Aún no tienes cuenta? <a href="{{ route('register') }}">Regístrate aquí</a> |
-                    ¿Olvidaste tu contraseña? <a href="{{ route('password.reset') }}">Recuperar contraseña</a>
+                    ¿Olvidaste tu contraseña? <a href="{{ route('password.request') }}">Recuperar contraseña</a>
                 </div>
             </div>
         </div>

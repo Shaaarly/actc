@@ -42,16 +42,17 @@
                   @if (Route::has('logout'))
                     {{-- Botón de Logout --}}
                     <li class="nav-item ms-2">
-                        <a class="btn btn-outline-danger" href="{{ route('logout') }}">Logout</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger p-2">Logout</button>
+                        </form>
                     </li>
                   @endif
               @else
-                @if (Route::has('login'))
                     {{-- Botón de Login si NO está logueado --}}
                     <li class="nav-item ms-2">
-                        <a class="btn btn-outline-primary btn-lg" href="{{ route('login') }}">Login</a>
+                        <a class="btn btn-outline-primary btn-lg p-3" href="{{ route('login') }}">Login</a>
                     </li>
-                @endif
               @endauth
 
               {{-- Botón Modo Claro/Oscuro --}}

@@ -28,5 +28,8 @@ return [
     ],
     [
         'expense_type' => 'IRPF'
+    ],
+    [
+        'expense_type' => 'Hipoteca'
     ]
 ];

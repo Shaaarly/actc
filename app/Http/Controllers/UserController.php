@@ -13,6 +13,7 @@ use App\Http\Requests\UserRequest;
 use App\Services\UserService;
 
 use \Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -111,5 +112,10 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
+    }
+
+    public function profile()
+    {
+        return $this->show(Auth::user());
     }
 }

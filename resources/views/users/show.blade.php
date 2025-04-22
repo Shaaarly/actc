@@ -1,108 +1,117 @@
 @extends('layouts.app')
 
-@section('title', 'Usuario')
-@section('page-title', 'Datos del usuario')
+@section('title', 'Perfil')
+@section('page-title', 'Perfil de usuario')
 
 @section('content')
+<div class="container">
+    {{-- Encabezado del perfil --}}
+    <div class="card mb-4">
+        <div class="card-body text-center">
+            <img src="{{ asset($user->profile_image ?? 'images/avatar.png') }}"
+                 alt="Foto de {{ $user->name }}"
+                 class="rounded-circle mb-3"
+                 style="width: 100px; height: 100px; object-fit: cover;">
 
-    <div class="card">
-        <div class="card-body">
-            <div class="d-flex align-items-center">
-                <img src="{{ asset($user->profile_image ?? 'images/avatar.png') }}"
-                    alt="Foto de {{ $user->name }}"
-                    class="rounded"
-                    style="width: 100px; height: 100px; object-fit: cover;">
-                
-
-                <h3 class="card-title mb-0 ms-3 text-primary">
-                {{ $user->name->name }}
-                {{ $user->name->surname_first }}
-                {{ $user->name->surname_second }}
-                </h3>
-            </div>
-        
-            <hr>
-
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item text-dark"><strong>DNI:</strong> {{ $user->dni }}</li>
-                <li class="list-group-item text-dark"><strong>Email:</strong> {{ $user->email }}</li>
-                <li class="list-group-item text-dark"><strong>Teléfono:</strong> {{ $user->phone }}</li>
-                <li class="list-group-item text-dark"><strong>País:</strong> {{ $user->address->country }}</li>
-                <li class="list-group-item text-dark"><strong>Provincia:</strong> {{ $user->address->province }}</li>
-                <li class="list-group-item text-dark"><strong>Ciudad:</strong> {{ $user->address->city }}</li>
-                <li class="list-group-item text-dark"><strong>Código Postal:</strong> {{ $user->address->postal_code }}</li>
-
-                {{-- Direccion completa--}}
-                @php
-                    $direccion = $user->address->street_name; 
-                    if ($user->address?->passageway) {
-                        $direccion .= ', pasage: ' . $user->address->passageway;
-                    }
-                    $direccion .= $user->address->entrance_number;
-                    if ($user->address?->block) {
-                        $direccion .= ', bloque: ' . $user->address->block;
-                    }
-                    $direccion .= ', piso: ' . $user->address->floor . ', puerta: ' . $user->address->apartment_number;
-                @endphp
-                <li class="list-group-item text-dark">
-                    <strong>Dirección:</strong> {{ $direccion }}
-                </li>
-
-                @if($user->plates->isNotEmpty())
-                    <li class="list-group-item text-dark">
-                        <strong>Matrículas:</strong>
-                        {{ $user->plates->pluck('plate')->implode(', ') }}
-                    </li>
+            <h4 class="mb-1 text-primary">
+                @if($user->name)
+                    {{ $user->name->name }} {{ $user->name->surname_first }} {{ $user->name->surname_second }}
+                @else
+                    {{ $user->email }}
                 @endif
-                
-            </ul>
-            
+            </h4>
+
+            <p class="{{ $user->email_verified_at ? 'text-success' : 'text-danger' }} mb-0">
+                {{ $user->confirmed ? '' : 'Usuario no confirmado' }}
+            </p>
         </div>
     </div>
 
+    {{-- Card 1: General --}}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="text-primary mb-3">General</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>DNI:</strong> {{ $user->dni ?? 'Sin especificar' }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ $user->email }}</li>
+                <li class="list-group-item"><strong>Teléfono:</strong> {{ $user->phone ?? 'Sin especificar' }}</li>
+                @if($user->plates->isNotEmpty())
+                    <li class="list-group-item">
+                        <strong>Matrículas:</strong> {{ $user->plates->pluck('plate')->implode(', ') }}
+                    </li>
+                @endif
+            </ul>
+        </div>
+    </div>
+
+    {{-- Card 2: Dirección --}}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="text-primary mb-3">Dirección</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>País:</strong> {{ $user->address?->country ?? 'Sin especificar' }}</li>
+                <li class="list-group-item"><strong>Provincia:</strong> {{ $user->address?->province ?? 'Sin especificar' }}</li>
+                <li class="list-group-item"><strong>Ciudad:</strong> {{ $user->address?->city ?? 'Sin especificar' }}</li>
+                <li class="list-group-item"><strong>Código Postal:</strong> {{ $user->address?->postal_code ?? 'Sin especificar' }}</li>
+                <li class="list-group-item">
+                    @php
+                        $direccion = $user->address?->street_name ?? ''; 
+                        if ($user->address?->passageway) {
+                            $direccion .= ', pasaje: ' . $user->address->passageway;
+                        }
+                        $direccion .= $user->address?->entrance_number ?? '';
+                        if ($user->address?->block) {
+                            $direccion .= ', bloque: ' . $user->address->block;
+                        }
+                        $direccion .= ', piso: ' . $user->address?->floor ?? '' . ', puerta: ' . $user->address?->apartment_number ?? '';
+                    @endphp
+                    <strong>Dirección completa:</strong> {{ $direccion }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    {{-- Título general fuera de las cards --}}
+    <h3 class="text-primary m-4 text-center">Alquileres Vigentes</h4>
+
     @if($user->leasesAsClient->isNotEmpty())
-        <div class="card mt-3">
-            <div class="card-body">
-                <h3 class="text-primary">
-                    {{ $user->leasesAsClient->count() === 1 ? 'Propiedad' : 'Propiedades' }} alquilada{{ $user->leasesAsClient->count() === 1 ? '' : 's' }}:
-                </h3>
-                <hr>
-                
-                <ul class="list-group list-group-flush">
-                    @foreach($user->leasesAsClient->all() as $property)
-                        <li class="list-group-item d-flex justify-content-between align-items-center mt-4">
-                            <div>
-                                <p class="mb-0 text-dark"><strong>Tipo:</strong> {{ $property->type->property_type }}</p>
-                                <p class="mb-0 text-dark"><strong>Dirección:</strong> {{ $property->address->street_name }}</p>
-                            
-                                @if(isset($property->number))
-                                    <p class="mb-4 text-dark"><strong>Identificador:</strong> {{ $property->number }}{{ $property->letter }}</p>
+        <div class="row g-4">
+            @foreach($user->leasesAsClient as $lease)
+                <div class=" col-12 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column justify-content-between h-100">
+
+                            {{-- Info del alquiler --}}
+                            <div class="mb-3">
+                                <p class="mb-2 text-dark"><strong>Tipo:</strong> {{ $lease->property->type->property_type }}</p>
+                                <p class="mb-2 text-dark"><strong>Inicio de Alquiler:</strong> {{ $lease->start_lease->format('d/m/Y') }}</p>
+                                <p class="mb-2 text-dark"><strong>Fin de Alquiler:</strong> {{ $lease->ending_lease?->format('d/m/Y') ?? 'No especificado' }}</p>
+                                <p class="mb-2 text-dark"><strong>Dirección:</strong> {{ $lease->property->address->street_name }}</p>
+                            </div>
+
+                            {{-- Botones al fondo --}}
+                            <div class="row mt-auto g-2">
+                                <div class="{{ in_array(auth()->user()->role_id, [2, 3]) ? 'col-6' : 'col-12' }}">
+                                    <a href="{{ route('properties.show', $lease->property) }}" class="btn btn-primary text-white w-100 btn-lg p-4">Ver</a>
+                                </div>
+                                @if(in_array(auth()->user()->role_id, [2, 3]))
+                                    <div class="col-6">
+                                        <a href="{{ route('properties.edit', $lease->property) }}" class="btn btn-secondary text-white w-100 btn-lg p-4">Editar</a>
+                                    </div>
                                 @endif
                             </div>
-                            <div class="d-flex gap-3">
-                                <form action="{{ route('properties.show', $property) }}" method="GET">
-                                    @csrf
-                                    <button class="btn btn-warning btn-lg text-white" type="submit">Ver Propiedad</button>
-                                </form>
-                                <form action="{{ route('properties.edit', $property) }}" method="GET">
-                                    @csrf
-                                    <button class="btn btn-primary btn-lg text-white" type="submit">Editar Propiedad</button>
-                                </form>
-                            </div>
-                        </li>
-                        
-                    @endforeach
-                    
-                </ul>
-            </div>
+
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     @else
-        <div class="alert alert-info mt-3">
+        <div class="alert alert-info">
             Este usuario no tiene ninguna propiedad alquilada actualmente.
         </div>
-    
     @endif
-    
 
+
+</div>
 @endsection
-

@@ -16,11 +16,12 @@ class UsersTableSeeder extends Seeder
         User::create([
             'dni' => '12345678A',
             'phone' => '666666666',
-            'email' => 'example@example.com',
+            'email' => 'admin@admin.com',
             'password' => 'password',
             'name_id' => 1,
             'role_id' => 3,
-            'description' => 'user admin'
+            'description' => 'user admin',
+            'confirmed' => 1
         ]);
     }
 }

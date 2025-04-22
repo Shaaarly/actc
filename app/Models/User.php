@@ -24,7 +24,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'name_id',
-        'description'
+        'description',
+        'role_id'
     ];
 
     /**
@@ -76,20 +77,24 @@ class User extends Authenticatable
             'property_id'
         );
     }
-    
+
+    public function propertiesLeased() {
+        return $this->hasManyThrough(
+            Property::class,
+            Lease::class,
+            'client_id', 
+            'id',        
+            'id',       
+            'property_id' 
+        );
+    }    
 
     public function leasesAsOwner() {
         return $this->hasMany(Lease::class, 'owner_id');
     }
 
-    public function leasesAsClient()
-    {
-        return $this->hasManyThrough(
-            Property::class,
-            Lease::class,
-            'client_id',
-            'id'
-        );
+    public function leasesAsClient() {
+        return $this->hasMany(Lease::class, 'client_id');
     }
 
     public function details() {

@@ -17,6 +17,7 @@ use App\Models\Picture;
 use App\Models\Address;
 use App\Models\Lease;
 use App\Models\Contract;
+use App\Models\Insurance;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             PropertyTypesTableSeeder::class,
             UsersTableSeeder::class,
+            InsuranceTypesTableSeeder::class,
         ]);
 
         // Generar Nombres
@@ -89,6 +91,7 @@ class DatabaseSeeder extends Seeder
         Payment::factory(2 * $leases->count())->create();
         Notification::factory(40)->create();
         Bill::factory(40)->create();
+        Insurance::factory(10)->create();
 
         // Crear gastos
         Expense::factory(50)->create();

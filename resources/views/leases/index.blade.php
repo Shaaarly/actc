@@ -6,53 +6,8 @@
 @section('content')
 <div class="container mt-4">
 
-    <form method="GET" action="{{ route('leases.index') }}" class="row g-3 mb-4">
-        
-        <div class="col-auto">
-            <label for="property_type_id" class="form-label">Tipo de Propiedad:</label>
-            <select name="property_type_id" id="property_type_id" class="form-select">
-                <option value="">Todos</option>
-                @foreach($propertyTypes as $type)
-                    <option value="{{ $type->id }}"
-                        @if(request('property_type_id') == $type->id) selected @endif>
-                        {{ $type->property_type }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        
-        <div class="col-auto">
-            <label for="sort_by" class="form-label">Ordenar por:</label>
-            <select name="sort_by" id="sort_by" class="form-select">
-                <option value="">Sin orden</option>
-                <option value="start_lease_asc" 
-                    @if(request('sort_by') == 'start_lease_asc') selected @endif>
-                    Inicio (Asc)
-                </option>
-                <option value="start_lease_desc" 
-                    @if(request('sort_by') == 'start_lease_desc') selected @endif>
-                    Inicio (Desc)
-                </option>
-                <option value="ending_lease_asc" 
-                    @if(request('sort_by') == 'ending_lease_asc') selected @endif>
-                    Fin (Asc)
-                </option>
-                <option value="ending_lease_desc" 
-                    @if(request('sort_by') == 'ending_lease_desc') selected @endif>
-                    Fin (Desc)
-                </option>
-            </select>
-        </div>
-        
-        <div class="col-auto align-self-end">
-            <button type="submit" class="btn btn-primary btn-lg text-white p-4">Aplicar</button>
-        </div>
-        
-        <div class="col-auto ms-auto align-self-end">
-            <a href="{{ route('leases.create') }}" class="btn btn-success text-white btn-lg">
-                Nuevo Alquiler
-            </a>
-        </div>
+    <form method="GET" action="{{ route('leases.index') }}" class="row g-3 mb-4 align-items-end justify-content-center">
+        @include('partials._lease-filters', ['propertyTypes' => $propertyTypes, 'clients' => $clients])
     </form>
 
     @forelse($leases as $lease)

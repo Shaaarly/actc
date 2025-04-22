@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('leases', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            // Date guarda año-mes-dia
             $table->date('start_lease');
             $table->date('ending_lease')->nullable();
             $table->boolean('keys_returned');

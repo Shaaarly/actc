@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('number')->nullable();
             $table->char('letter')->nullable();
             $table->string('description');
+            $table->string('cadastre')->nullable();
             $table->boolean('available');
             $table->boolean('ocupied');
             $table->integer('area')->nullable();

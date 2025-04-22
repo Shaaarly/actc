@@ -11,16 +11,21 @@
   <script src="https://kit.fontawesome.com/f03bcf4820.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="d-flex" style="min-height: 100vh;">
-    <!-- Sidebar: ocupa toda la altura a la izquierda -->
-    <div class=" p-0 sidebar">
-      @include('partials.sidebar')
-    </div>
+  <div class="d-flex">
+    @auth
+      @if(in_array(auth()->user()->role_id, [2, 3]))
+          <!-- Sidebar: ocupa toda la altura a la izquierda -->
+          <div class="p-0 sidebar">
+              @include('partials.sidebar')
+          </div>
+      @endif
+    @endauth
+
   
     <!-- Contenedor derecho: navbar arriba y contenido principal abajo -->
     <div class="d-flex flex-column flex-grow-1">
       <!-- Navbar (gris) en la parte superior del contenedor derecho -->
-      <div class="bg-secondary">
+      <div class="bg-white">
         @include('partials.navbar')
       </div>
       <!-- Contenido principal (blanco) que ocupa el resto del espacio -->

@@ -27,6 +27,7 @@ class UserService {
         $user->dni   = $data['dni'];
         $user->phone = $data['phone'];
         $user->email = $data['email'];
+        $user->confirmed = 1;
 
         if(!isset($user->password)) {
             $user->password = $data['password'];

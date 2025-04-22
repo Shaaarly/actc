@@ -66,14 +66,20 @@ class Property extends Model
         return $this->hasMany(Lease::class, 'property_id');
     }
 
-
-    public function syncOwners(array $plates){
-        $this->owners()->delete();
-
-        $filtered = array_filter($owners, fn($p) => trim($p) !== '');
-    
-        foreach ($filtered as $plateText) {
-            $this->owners()->create(['plate' => $plateText]);
-        }
+    public function insurances() 
+    {
+        return $this->hasMany(Insurance::class);
     }
+
+    // public function syncOwners(array $plates){
+    //     $this->owners()->delete();
+
+    //     $filtered = array_filter($owners, fn($p) => trim($p) !== '');
+    
+    //     foreach ($filtered as $plateText) {
+    //         $this->owners()->create(['plate' => $plateText]);
+    //     }
+    // }
+
+
 }
