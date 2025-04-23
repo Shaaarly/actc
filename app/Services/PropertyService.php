@@ -4,10 +4,14 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Address;
 
+use App\Services\AddressService;
+
 class PropertyService {
 
 
-    public function __construct() {
+    public function __construct(
+        private AddressService $address_service
+    ) {
 
     }
 
@@ -34,35 +38,7 @@ class PropertyService {
         $property->owners()->sync($data['owners']);
 
 
-        if($property->address) {
-            $property->address->update([
-                'country'          => $data['country'],
-                'province'         => $data['province'],
-                'city'             => $data['city'],
-                'postal_code'      => $data['postal_code'],
-                'street_name'      => $data['street_name'],
-                'passage'          => $data['passage'] ?? null,
-                'entrance_number'  => $data['entrance_number'],
-                'floor'            => $data['floor'],
-                'block'            => $data['block'] ?? null,
-                'apartment_number' => $data['apartment_number'],
-            ]);
-        } else {
-            $property->address()->create([
-                'addressable_type' => 'property',
-                'addressable_id'   => $property->id,
-                'country'          => $data['country'],
-                'province'         => $data['province'],
-                'city'             => $data['city'],
-                'postal_code'      => $data['postal_code'],
-                'street_name'      => $data['street_name'],
-                'passage'          => $data['passage'] ?? null,
-                'entrance_number'  => $data['entrance_number'],
-                'floor'            => $data['floor'],
-                'block'            => $data['block'] ?? null,
-                'apartment_number' => $data['apartment_number'],
-            ]);
-        }
+        $this->address_service->saveAddress($property, $data);
 
     }
 }

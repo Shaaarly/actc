@@ -22,18 +22,16 @@
     @endauth
 
   
-    <!-- Contenedor derecho: navbar arriba y contenido principal abajo -->
+
     <div class="d-flex flex-column flex-grow-1">
-      <!-- Navbar (gris) en la parte superior del contenedor derecho -->
+
       <div class="bg-white">
         @include('partials.navbar')
       </div>
-      <!-- Contenido principal (blanco) que ocupa el resto del espacio -->
+
       <div class="flex-grow-1 bg-white p-3 main-content">
         
         @include('partials.alerts')
-
-
 
         @yield('content')
       </div>

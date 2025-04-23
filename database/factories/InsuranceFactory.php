@@ -33,7 +33,7 @@ class InsuranceFactory extends Factory
             'phone' => fake()->unique()->regexify('[67][0-9]{8}'),
             'price' => fake()->numberBetween(100, 800),
             'policy' => fake()->numberBetween(100000, 999999),
-            'owner' => $owner,
+            'owner_id' => $owner,
             'description' => fake()->sentence(),
             'property_id' => fake()->randomElement($properties_id),
             'insurance_type_id' => fake()->randomElement($types_id),

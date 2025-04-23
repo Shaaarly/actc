@@ -4,7 +4,7 @@
 @section('page-title', 'Login')
 
 @section('content')
-<div class="my-5">
+<div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card shadow-sm">

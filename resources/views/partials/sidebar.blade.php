@@ -99,5 +99,15 @@
             <i class="fa-solid fa-list"></i> Logs
             </a>
         </li>
+
+        <!-- Seguros -->
+        <li class="nav-item">
+            <a 
+                href="{{ route('insurances') }}" 
+                class="nav-link sidebar-link {{ request()->routeIs('settings') ? 'active' : '' }}"
+            >
+            <i class="fa-solid fa-handshake"></i> Insurances
+            </a>
+        </li>
     </ul>
 </div>

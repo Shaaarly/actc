@@ -83,23 +83,23 @@
                 </li>                
                 @if($property->ocupied === 1)
                     <li class="list-group-item text-dark">
-                        <strong>Ocupado</strong>
+                        <strong>Ocupado:</strong>
                         Esta propiedad esta ocupada actualmente
                     </li>   
                 @else 
                     <li class="list-group-item text-dark">
-                        <strong>Ocupado</strong> 
+                        <strong>Ocupado:</strong> 
                         Esta propiedad no esta ocupada actualmente
                     </li>   
                 @endif
                 @if($property->available === 1)             
                     <li class="list-group-item text-dark">
-                        <strong>Disponible</strong>
+                        <strong>Disponible:</strong>
                         Esta propiedad está disponible para alquilar
                     </li>  
                 @else
                     <li class="list-group-item text-dark">
-                        <strong>Disponible</strong>
+                        <strong>Disponible:</strong>
                         Esta propiedad no está disponible para alquilar
                     </li>  
                 @endif  
@@ -145,6 +145,51 @@
         </div>
     </div>
     
+    @if($property->insurances->isNotEmpty())
+        <h3 class="mt-4 text-primary">
+            @if(count($property->insurances) > 1)
+                Seguros
+            @else
+                Seguro
+            @endif
+        </h3>
+        
+        @foreach($property->insurances as $insurance)
+            <div class="card mb-4">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <h4 class="text-primary">{{ $insurance->name }}</h4>
+                        <li class="list-group-item">
+                            <strong>Teléfono:</strong>
+                            {{ $insurance->phone }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Póliza:</strong>
+                            {{ $insurance->policy }}
+                        </li>
+                        <li class="list-group-item text-dark">
+                            <strong>Titular:</strong>
+                            {{ $insurance->owner->name->name }}
+                            {{ $insurance->owner->name->surname_first }}
+                            {{ $insurance->owner->name->surname_second }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Precio:</strong>
+                            {{ $insurance->price }}€
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Descripción:</strong>
+                            {{ $insurance->description }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        @endforeach
+    @else   
+        <div class="alert alert-warning mt-4">
+            Esta propiedad no tiene ningún seguro contratado actualmente.
+        </div>
+    @endif
 
 @endsection
 

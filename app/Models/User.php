@@ -109,6 +109,10 @@ class User extends Authenticatable
         return $this->morphOne(Address::class, 'addressable');
     }
 
+    public function insurances() {
+        return $this->hasMany(Insurance::class, 'owner_id');
+    }
+
     // public function lastBill(){
     //     return $this->hasManyThrough(Bill::class, Payment::class, 'owner_id', 'payment_id')
     //             ->latestOfMany();

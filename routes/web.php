@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
         Route::view('/contracts', 'contracts.show')->name('contracts');
         Route::view('/bills', 'bills.show')->name('bills');
         Route::view('/logs', 'logs.show')->name('logs');
+        Route::view('/insurances', 'insurances.show')->name('insurances');
 
         // Test mail (admin-only)
         Route::get('/test-mail', function () {

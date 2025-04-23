@@ -21,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(LeaseService::class, function ($app) {
             return new LeaseService();
         });
+        $this->app->singleton(AddressService::class, function ($app) {
+            return new AddressService();
+        });
 
 
         // $this->app->singleton(InventionService::class, function ($app) {

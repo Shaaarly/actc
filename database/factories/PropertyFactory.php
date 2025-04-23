@@ -30,6 +30,7 @@ class PropertyFactory extends Factory
             'area' => fake()->numberBetween(12, 120),
             'number' => fake()->numberBetween(1, 250),
             'letter' => fake()->regexify('[A-E]{1}'),
+            'cadastre' => fake()->regexify('[A-E]{2}[1-9]{10}'),
             'bathrooms' => fake()->randomDigit(),
             'rooms' => fake()->randomDigit(),
             'remote' => fake()->boolean(60),

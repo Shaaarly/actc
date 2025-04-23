@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->integer('price')->nullable();
             $table->string('policy')->nullable();
-            $table->string('owner')->nullable();
             $table->string('description')->nullable();
 
             $table->unsignedBigInteger('property_id')->nullable();
@@ -32,6 +31,12 @@ return new class extends Migration
                 ->references('id')
                 ->on('insurance_types')
                 ->onDelete('cascade');
+
+            $table->unsignedBigInteger('owner_id');
+            $table->foreign('owner_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade'); 
         });
     }
 

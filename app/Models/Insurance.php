@@ -23,6 +23,10 @@ class Insurance extends Model
         return $this->belongsTo(Property::class);
     }
 
+    public function owner() {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
     public function type() {
         return $this->belongsTo(InsuranceType::class);
     }

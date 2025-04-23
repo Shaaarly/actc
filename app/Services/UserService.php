@@ -5,10 +5,14 @@ use App\Models\User;
 use App\Models\Name;
 use App\Models\Address;
 
+use App\Services\AddressService;
+
 class UserService {
 
 
-    public function __construct() {
+    public function __construct(
+        private AddressService $address_service
+    ) {
 
     }
 
@@ -22,6 +26,10 @@ class UserService {
             $user->plates()->create(['plate' => $plateText]);
         }
     } 
+
+    public function owners() {
+        return User::where('role_id', 2)->get();
+    }
 
     public function createOrUpdateUser($user, $data) {
         $user->dni   = $data['dni'];
@@ -58,34 +66,6 @@ class UserService {
             $user->save();
         }
 
-        if ($user->address) {
-            $user->address->update([
-                'country'          => $data['country'],
-                'province'         => $data['province'],
-                'city'             => $data['city'],
-                'postal_code'      => $data['postal_code'],
-                'street_name'      => $data['street_name'],
-                'passageway'       => $data['passageway'] ?? null,
-                'entrance_number'  => $data['entrance_number'],
-                'floor'            => $data['floor'] ?? null,
-                'block'            => $data['block'] ?? null,
-                'apartment_number' => $data['apartment_number'] ?? null,
-            ]);
-        } else {
-            $user->address()->create([
-                'addressable_type' => 'user',
-                'addressable_id'   => $user->id,
-                'country'          => $data['country'],
-                'province'         => $data['province'],
-                'city'             => $data['city'],
-                'postal_code'      => $data['postal_code'],
-                'street_name'      => $data['street_name'],
-                'passageway'       => $data['passageway'] ?? null,
-                'entrance_number'  => $data['entrance_number'],
-                'floor'            => $data['floor'] ?? null,
-                'block'            => $data['block'] ?? null,
-                'apartment_number' => $data['apartment_number'] ?? null,
-            ]);
-        }
+       $this->address_service->saveAddress($user, $data);
     }
 }
