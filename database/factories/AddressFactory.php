@@ -19,10 +19,10 @@ class AddressFactory extends Factory
             'province'         => fake()->state(),
             'street_name'      => fake()->streetAddress(),
             'passageway'       => fake()->secondaryAddress(),
-            'entrance_number'  => fake()->numberBetween(1, 255),
+            'building_number'  => fake()->numberBetween(1, 255),
             'floor'            => fake()->numberBetween(1, 14),
             'block'            => fake()->regexify('[A-E]'),
-            'apartment_number' => fake()->numberBetween(1, 40),
+            'number' => fake()->numberBetween(1, 40),
             'country'          => fake()->country()
         ];
     }

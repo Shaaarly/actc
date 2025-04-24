@@ -13,7 +13,9 @@
                         Seleccione un tipo
                     </option>
                     @foreach ($propertyTypes as $type)
-                        <option value="{{ $type->id }}"
+                        <option 
+                            value="{{ $type->id }}" 
+                            data-type="{{ strtolower($type->property_type) }}"
                             {{ old('property_type_id', isset($property) ? $property->property_type_id : '') == $type->id ? 'selected' : '' }}>
                             {{ $type->property_type }}
                         </option>
@@ -131,12 +133,12 @@
                 <input type="text" name="passageway" value="{{ old('passageway', $property->address->passageway ?? '') }}" class="form-control">
             </div>
             <div class="col">
-                <label for="entrance_number">Número</label>
-                <input type="text" name="entrance_number" value="{{ old('entrance_number', $property->address->entrance_number ?? '') }}" class="form-control">
+                <label for="building_number">Número</label>
+                <input type="text" name="building_number" value="{{ old('building_number', $property->address->building_number ?? '') }}" class="form-control">
             </div>
             <div class="col">
-                <label for="apartment_number">Puerta</label>
-                <input type="text" name="apartment_number" value="{{ old('apartment_number', $property->address->apartment_number ?? '') }}" class="form-control">
+                <label for="number">Puerta</label>
+                <input type="text" name="number" value="{{ old('number', $property->address->number ?? '') }}" class="form-control">
             </div>
             <div class="col">
                 <label for="floor">Piso</label>
@@ -150,22 +152,18 @@
     
         <hr>
     
-        <div id="extraGarageTrasteroFields" style="display: none;">
+        <div id="extraGarageField" style="display: none;">
             <div class="row">
                 <div class="mb-3 col-md-6">
                     <label for="letter" class="form-label">Letra</label>
                     <input type="text" name="letter" id="letter" class="form-control" value="{{ old('letter', $property->letter ?? '') }}">
-                </div>
-                <div class="mb-3 col-md-6">
-                    <label for="number" class="form-label">Número</label>
-                    <input type="text" name="number" id="number" class="form-control" value="{{ old('number', $property->number ?? '') }}">
                 </div>
             </div>
         </div>
         
         <div id="extraLocalPisoFields" style="display: none;">
             <div class="row">
-            <!-- Contenedor para local comercial o piso -->
+            <!-- Contenedor para local comercial o Vivienda-->
                 <div class="mb-3 col-md-6">
                     <label for="bathrooms" class="form-label">Baños</label>
                     <input type="number" name="bathrooms" id="bathrooms" class="form-control" value="{{ old('bathrooms', $property->bathrooms ?? '') }}">

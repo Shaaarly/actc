@@ -4,48 +4,34 @@
 @section('page-title', 'Registro')
 
 @section('content')
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white text-center mb-4">
-                    <h3 class="card-title mb-0">Registrarse</h3>
-                </div>
+<div class="auth-card">
+    <h3 class="text-center text-primary card-title">Crear cuenta</h3>
 
-                <div class="card-body">
-                    <form action="{{ route('register') }}" method="POST">
-                        @csrf
+    <form action="{{ route('register') }}" method="POST">
+        @csrf
 
-                        {{-- Email --}}
-                        <div class="form-floating mb-4 mt-4">
-                            <input type="email" name="email" id="email" class="form-control" placeholder=" " required>
-                            <label for="email">Introduce tu email</label>
-                        </div>
-
-                        {{-- Contraseña --}}
-                        <div class="form-floating mb-4 mt-4">
-                            <input type="password" name="password" id="password" class="form-control" placeholder=" " required>
-                            <label for="password">Introduce tu contraseña</label>
-                        </div>
-
-                        {{-- Confirmar contraseña --}}
-                        <div class="form-floating mb-4 mt-4">
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder=" " required>
-                            <label for="password_confirmation">Repite la contraseña</label>
-                        </div>
-
-                        {{-- Botón --}}
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg p-4 text-white">¡Regístrate!</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="card-footer text-center">
-                    ¿Ya tienes una cuenta? <a href="{{ route('login') }}">Inicia sesión aquí</a>
-                </div>
-             </div>
+        <div class="form-floating mb-3">
+            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+            <label for="email">Email</label>
         </div>
+
+        <div class="form-floating mb-3">
+            <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required>
+            <label for="password">Contraseña</label>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Repite contraseña" required>
+            <label for="password_confirmation">Confirmar contraseña</label>
+        </div>
+
+        <div class="d-grid mb-3">
+            <button type="submit" class="btn btn-primary p-4 w-100">Registrarse</button>
+        </div>
+    </form>
+
+    <div class="card-footer text-center">
+        ¿Ya tienes una cuenta? <a href="{{ route('login') }}">Inicia sesión</a>
     </div>
 </div>
 @endsection

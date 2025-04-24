@@ -34,7 +34,7 @@
                             @endif
                             <h5 class="card-title mb-0">
                                 @if($property->address)
-                                    {{ $property->address->street_name }}
+                                    {{ $property->formatPropertyName() }}
                                 @else
                                     <span>Dirección no disponible</span>
                                 @endif

@@ -9,9 +9,7 @@
         <div class="card-body">
             <h3 class="card-title mt-4 ms-3 text-primary">
                 {{ $property->type->property_type }}
-                @if($property->type->property_type == 'Trastero' || $property->type->property_type == 'Garage')
-                {{ $property->letter }}{{ $property->number }}
-                @endif
+                {{ $property->formatPropertyName() }}
             </h3>
             <div class="d-flex align-items-center">
                 <div id="carouselProperty{{ $property->id }}" class="carousel slide mb-4" data-bs-ride="carousel">
@@ -68,15 +66,15 @@
                     if ($property->address?->block) {
                         $direccion .= ', bloque: ' . $property->address->block;
                     }
-                    if($property->type->property_type == 'Piso' || $property->type->property_type == 'Local Comercial') {
+                    if($property->type->property_type == 'Vivienda' || $property->type->property_type == 'Local') {
                         $direccion .= ', Iden: ' . $property->address->floor . ', puerta: ' . $property->address->apartment_number;
                     }
                 @endphp
                 <li class="list-group-item text-dark">
-                    <strong>Dirección:</strong> {{ $direccion }}
+                    <strong>Dirección:</strong> {{ $property->formatFullAddress() }}
                 </li>                            
                 <li class="list-group-item text-dark">
-                    <strong>Area:</strong> {{ $property->area }}
+                    <strong>Area:</strong> {{ $property->area }}m<sup>2</sup>
                 </li>                
                 <li class="list-group-item text-dark">
                     <strong>Precio:</strong> {{ $property->price }}
@@ -105,12 +103,12 @@
                 @endif  
                 @if($property->keys === 1)
                     <li class="list-group-item text-dark">
-                        <strong>Llaves</strong> 
+                        <strong>Llaves:</strong> 
                         Esta propiedad tiene llaves
                     </li>  
                 @else
                     <li class="list-group-item text-dark">
-                        <strong>Llaves</strong> 
+                        <strong>Llaves:</strong> 
                         Esta propiedad no tiene llaves
                     </li>  
                 @endif 
@@ -118,12 +116,12 @@
                 @if($property->type->property_type == 'Trastero' || $property->type->property_type == 'Garage')  
                     @if($property->remote === 1)
                         <li class="list-group-item text-dark">
-                            <strong>Mando</strong> 
+                            <strong>Mando:</strong> 
                             Esta propiedad tiene un mando
                         </li>  
                     @else
                         <li class="list-group-item text-dark">
-                            <strong>Mando</strong> 
+                            <strong>Mando:</strong> 
                             Esta propiedad no tiene mando
                         </li>  
                     @endif
@@ -143,6 +141,11 @@
             </ul>
             
         </div>
+
+        <form action="{{ route('properties.edit', $property) }}" method="GET">
+            @csrf
+            <button class="btn btn-primary btn-lg text-white" type="submit">Editar Propiedad</button>
+        </form>
     </div>
     
     @if($property->insurances->isNotEmpty())

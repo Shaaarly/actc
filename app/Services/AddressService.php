@@ -15,10 +15,10 @@ class AddressService {
                 'postal_code'      => $data['postal_code'],
                 'street_name'      => $data['street_name'],
                 'passageway'       => $data['passageway'] ?? null,
-                'entrance_number'  => $data['entrance_number'],
+                'building_number'  => $data['building_number'],
                 'floor'            => $data['floor'] ?? null,
                 'block'            => $data['block'] ?? null,
-                'apartment_number' => $data['apartment_number'] ?? null,
+                'number'           => $data['number'] ?? null,
             ]);
         } else {
             $object->address()->create([
@@ -30,10 +30,10 @@ class AddressService {
                 'postal_code'      => $data['postal_code'],
                 'street_name'      => $data['street_name'],
                 'passageway'       => $data['passageway'] ?? null,
-                'entrance_number'  => $data['entrance_number'],
+                'building_number'  => $data['building_number'],
                 'floor'            => $data['floor'] ?? null,
                 'block'            => $data['block'] ?? null,
-                'apartment_number' => $data['apartment_number'] ?? null,
+                'number'           => $data['number'] ?? null,
             ]);
         }
     }

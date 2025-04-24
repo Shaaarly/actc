@@ -7,6 +7,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\LeaseController;
+use App\Http\Controllers\SessionController;
 use App\Mail\TestEmail;
 
 /*
@@ -18,18 +19,42 @@ use App\Mail\TestEmail;
 |
 */
 
+Route::view('/', 'welcome')->name('welcome');
+
 // Guest-only pages: welcome, login, register, password reset
 Route::middleware('guest')->group(function () {
     // Home (public)
-    Route::view('/', 'welcome')->name('welcome');
 });
 
 // All authenticated users
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', '2fa.prompt'])->group(function () {
     // Dashboard (any logged-in user)
-    Route::view('/', 'welcome')->name('welcome');
     
+    Route::get('/leased', [LeaseController::class, 'leased'])->name('leased');
+
+    // Perfil general
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('profile.edit');
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::delete('/profile', [UserController::class, 'destroyProfile'])->name('profile.destroy');
+
+
+    Route::get('/configuracion/{tab?}', [UserController::class, 'settings'])->name('configuracion');
+
+    // Configuración del 2FA
+    Route::get('/two-factor/setup', function () {
+        return view('auth.two-factor-setup'); // Vista simple, o podrías redirigir a una sección del perfil
+    })->name('two-factor.setup');
+
+    // Vista de sesiones activas
+    Route::get('/profile/sessions', [SessionController::class, 'index'])->name('sessions.index');
+
+    // Cerrar una sesión específica
+    Route::delete('/profile/sessions/{id}', [SessionController::class, 'destroy'])->name('sessions.destroy');
+
+    Route::put('/notificaciones', [UserController::class, 'updateNotifications'])->name('notifications.update');
+
+
 
     // Routes only for owners (role_id 2) and admins (role_id 3)
     Route::middleware('role:2,3')->group(function () {

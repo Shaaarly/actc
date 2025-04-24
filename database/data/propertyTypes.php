@@ -9,9 +9,9 @@ return [
         'property_type' => 'Trastero'
     ],
     [
-        'property_type' => 'Piso'
+        'property_type' => 'Vivienda'
     ],
     [
-        'property_type' => 'Local Comercial'
+        'property_type' => 'Local'
     ]
 ];

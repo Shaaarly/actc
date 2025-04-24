@@ -11,12 +11,18 @@ use App\Models\PropertyType;
 use App\Models\PaymentType;
 
 use App\Services\LeaseService;
+use App\Services\UserService;
+use App\Services\PropertyService;
+
+use Illuminate\Support\Facades\Auth;
 
 class LeaseController extends Controller
 {
 
     public function __construct (
-        private LeaseService $lease_service
+        private LeaseService $lease_service,
+        private UserService $user_service,
+        private PropertyService $property_service,
     ) {
 
     }
@@ -25,53 +31,9 @@ class LeaseController extends Controller
      */
     public function index(Request $request)
     {
-        $sort_by = $request->input('sort_by');
-        $property_type_id = $request->input('property_type_id');
-        $active = $request->input('active');
-        $client_id = $request->input('client_id');
-
-        $query = Lease::with([
-            'property.address',
-            'property.type',
-            'client.name',
-        ]);
-
-        if ($property_type_id) {
-            $query->whereHas('property', function ($q) use ($property_type_id) {
-                $q->where('property_type_id', $property_type_id);
-            });
-        }
-
-        if (!is_null($active)) {
-            $query->where('active', $active);
-        }
-
-        if ($client_id) {
-            $query->where('client_id', $client_id);
-        }
-
-        if ($sort_by) {
-            switch ($sort_by) {
-                case 'start_lease_asc':
-                    $query->orderBy('start_lease', 'asc');
-                    break;
-                case 'start_lease_desc':
-                    $query->orderBy('start_lease', 'desc');
-                    break;
-                case 'ending_lease_asc':
-                    $query->orderBy('ending_lease', 'asc');
-                    break;
-                case 'ending_lease_desc':
-                    $query->orderBy('ending_lease', 'desc');
-                    break;
-            }
-        } else {
-            $query->orderBy('start_lease', 'desc');
-        }
-
-        $leases = $query->get();
-        $propertyTypes = PropertyType::all();
-        $clients = User::with('name')->where('role_id', 1)->get();
+        $leases = $this->lease_service->getFilteredLeases($request);
+        $propertyTypes = $this->property_service->getPropertyTypes();
+        $clients = $this->user_service->getConfirmedClients();
 
         return view('leases.index', compact('leases', 'propertyTypes', 'clients'));
 
@@ -145,5 +107,11 @@ class LeaseController extends Controller
         $lease->active = 0;
         $lease->delete();
         return redirect()->route('leases.index')->with('success', 'Contrato finalizado correctamente');
+    }
+
+    public function leased() {
+        $leases = Auth::user()->leasesAsClient;
+
+        return view('users.leases', compact('leases'));
     }
 }

@@ -27,45 +27,82 @@ class UserService {
         }
     } 
 
-    public function owners() {
+    public function getOwners() {
         return User::where('role_id', 2)->get();
     }
 
+    public function getClients() {
+        return User::where('role_id', 1)->get();
+    }
+
+    public function getConfirmedClients() {
+        return User::where('role_id', 1)
+                    ->where('confirmed', 1)            
+                    ->get();
+    }
+
     public function createOrUpdateUser($user, $data) {
-        $user->dni   = $data['dni'];
-        $user->phone = $data['phone'];
-        $user->email = $data['email'];
-        $user->confirmed = 1;
-
-        if(!isset($user->password)) {
-            $user->password = $data['password'];
+        // Campos directos del usuario
+        if (array_key_exists('dni', $data)) {
+            $user->dni = $data['dni'];
         }
-        
-        $user->description = $data['description'];
-
-        if(!isset($user->role_id)) {
+    
+        if (array_key_exists('phone', $data)) {
+            $user->phone = $data['phone'];
+        }
+    
+        if (array_key_exists('email', $data)) {
+            $user->email = $data['email'];
+        }
+    
+        if (array_key_exists('password', $data)) {
+            $user->password = bcrypt($data['password']); // Por si viene plano
+        }
+    
+        if (array_key_exists('description', $data)) {
+            $user->description = $data['description'];
+        }
+    
+        // Solo para nuevos usuarios
+        if (!isset($user->role_id)) {
             $user->role_id = 1;
         }
-
-        if($user->name) {
-            $user->name->update([
-                'name'           => $data['name'],
-                'surname_first'  => $data['surname_first'],
-                'surname_second' => $data['surname_second'] ?? null,
-            ]);
-        } else {
-            $name = Name::create([
-                'name'           => $data['name'],
-                'surname_first'  => $data['surname_first'],
-                'surname_second' => $data['surname_second'] ?? null,
-            ]);
-            $user->name_id = $name->id;
+    
+        // Confirmado por defecto si se edita desde dentro
+        $user->confirmed = 1;
+    
+        // Manejo del modelo Name
+        if (
+            array_key_exists('name', $data) ||
+            array_key_exists('surname_first', $data) ||
+            array_key_exists('surname_second', $data)
+        ) {
+            if ($user->name) {
+                $user->name->update([
+                    'name'           => $data['name'] ?? $user->name->name,
+                    'surname_first'  => $data['surname_first'] ?? $user->name->surname_first,
+                    'surname_second' => $data['surname_second'] ?? $user->name->surname_second,
+                ]);
+            } else {
+                $name = Name::create([
+                    'name'           => $data['name'] ?? '',
+                    'surname_first'  => $data['surname_first'] ?? '',
+                    'surname_second' => $data['surname_second'] ?? null,
+                ]);
+                $user->name_id = $name->id;
+            }
         }
-
-        if (!$user->exists) {
-            $user->save();
+    
+        // Guardar usuario antes de relaciones
+        $user->save();
+    
+        // Guardar dirección solo si hay campos de dirección
+        if (array_intersect(array_keys($data), [
+            'country', 'province', 'city', 'postal_code',
+            'street_name', 'building_number', 'block', 'number', 'floor', 'passageway'
+        ])) {
+            $this->address_service->saveAddress($user, $data);
         }
-
-       $this->address_service->saveAddress($user, $data);
     }
+    
 }

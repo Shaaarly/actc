@@ -16,12 +16,15 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LoginResponse;
+use App\Fortify\Responses\UpdatePasswordResponse;
+use Laravel\Fortify\Contracts\UpdateUserPasswordResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->singleton(UpdateUserPasswordResponse::class, UpdatePasswordResponse::class);
     }
 
     public function boot(): void
@@ -55,11 +58,26 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::registerView(fn() => view('auth.register'));
 
         // 2) Vista para solicitar el enlace de restablecimiento
-        Fortify::requestPasswordResetLinkView(fn() => view('auth.passwords.request'));
+        Fortify::requestPasswordResetLinkView(fn() => view('auth.passwords.forgot'));
 
         // 3) Vista para restablecer la contraseña (recibe el Request con token + email)
         Fortify::resetPasswordView(fn(Request $request) =>
             view('auth.passwords.reset', ['request' => $request])
         );
+
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+            public function toResponse($request)
+            {
+                return match (auth()->user()->role_id) {
+                    2, 3 => redirect()->route('users.index'),
+                    1 => redirect()->route('profile'),
+                    default => redirect('/'),
+                };
+            }
+        });
+
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify-email');
+        });
     }
 }

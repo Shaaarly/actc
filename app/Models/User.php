@@ -9,9 +9,15 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable
+use Illuminate\Auth\Notifications\ResetPassword;
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\FormatsAddressDisplay;
+
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, FormatsAddressDisplay;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +31,8 @@ class User extends Authenticatable
         'phone',
         'name_id',
         'description',
-        'role_id'
+        'role_id',
+        'confirmed'
     ];
 
     /**
@@ -117,5 +124,10 @@ class User extends Authenticatable
     //     return $this->hasManyThrough(Bill::class, Payment::class, 'owner_id', 'payment_id')
     //             ->latestOfMany();
     // } SERVICE!
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 
 }

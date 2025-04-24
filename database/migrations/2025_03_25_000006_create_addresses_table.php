@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('passageway')->nullable();
             $table->unsignedInteger('postal_code');
             $table->string('province');
-            $table->unsignedTinyInteger('entrance_number');
+            $table->unsignedTinyInteger('building_number');
             $table->char('block')->nullable();
             $table->unsignedTinyInteger('floor')->nullable();
-            $table->unsignedTinyInteger('apartment_number')->nullable();
+            $table->unsignedTinyInteger('number')->nullable();
             $table->string('city');
             $table->string('country');
             $table->timestamps();

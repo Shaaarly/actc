@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\User;
 use App\Models\Address;
+use App\Models\PropertyType;
 
 use App\Services\AddressService;
 
@@ -13,6 +14,11 @@ class PropertyService {
         private AddressService $address_service
     ) {
 
+    }
+
+    public function getPropertyTypes()
+    {
+        return PropertyType::all();
     }
 
     public function createOrUpdateProperty($property, $data) {
@@ -28,7 +34,6 @@ class PropertyService {
         $property->remote = $data['remote'];
         $property->keys = $data['keys'];
         $property->letter = $data['letter'];
-        $property->number = $data['number'];
         $property->property_type_id = $data['property_type_id'];
 
         $property->save();

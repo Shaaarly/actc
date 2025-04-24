@@ -1,25 +1,20 @@
 function toggleExtraFields() {
-    var propertyTypeSelect = document.getElementById('property_type_id');
-    if (!propertyTypeSelect) return; // Aseguramos que exista el elemento
+    const select = document.getElementById('property_type_id');
+    const selectedOption = select.options[select.selectedIndex];
+    const type = selectedOption.getAttribute('data-type');
 
-    var selectedText = propertyTypeSelect.options[propertyTypeSelect.selectedIndex].text.toLowerCase();
+    const showGarage = (type === 'garage');
+    const showLocalPiso = (type === 'local' || type === 'vivienda');
 
-    if (selectedText === 'trastero' || selectedText === 'garage') {
-        document.getElementById('extraGarageTrasteroFields').style.display = 'block';
-        document.getElementById('extraLocalPisoFields').style.display = 'none';
-    } else if (selectedText === 'local comercial' || selectedText === 'piso') {
-        document.getElementById('extraLocalPisoFields').style.display = 'block';
-        document.getElementById('extraGarageTrasteroFields').style.display = 'none';
-    } else {
-        document.getElementById('extraGarageTrasteroFields').style.display = 'none';
-        document.getElementById('extraLocalPisoFields').style.display = 'none';
-    }
+    document.getElementById('extraGarageField').style.display = showGarage ? 'block' : 'none';
+    document.getElementById('extraLocalPisoFields').style.display = showLocalPiso ? 'block' : 'none';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var propertyTypeSelect = document.getElementById('property_type_id');
-    if(propertyTypeSelect) {
-        propertyTypeSelect.addEventListener('change', toggleExtraFields);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('property_type_id');
+    if (select) {
+        select.addEventListener('change', toggleExtraFields);
         toggleExtraFields();
     }
 });

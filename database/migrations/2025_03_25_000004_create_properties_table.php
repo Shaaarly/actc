@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('price');
-            $table->integer('number')->nullable();
             $table->char('letter')->nullable();
             $table->string('description');
             $table->string('cadastre')->nullable();

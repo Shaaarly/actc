@@ -1,0 +1,49 @@
+.reset-btn {
+    background-color: #0d6efd;
+    color: #fff !important;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 6px;
+    text-align: center;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.text-muted {
+    color: #6c757d;
+    font-size: 14px;
+    margin-top: 30px;
+}
+
+body.email {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 2rem;
+}
+
+.email .container {
+    max-width: 600px;
+    margin: auto;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.email .btn {
+    background-color: #007bff;
+    padding: 1rem 2rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+.email .footer {
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: #777;
+}

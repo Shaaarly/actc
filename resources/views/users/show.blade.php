@@ -4,7 +4,13 @@
 @section('page-title', 'Perfil de usuario')
 
 @section('content')
-<div class="container">
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-primary">Tu perfil</h2>
+    <a href="{{ route('configuracion') }}" class="btn btn-outline-primary btn-lg">
+        <i class="fa-solid fa-gear"></i> Configurar
+    </a>
+</div>
+<div class="user-container">
     {{-- Encabezado del perfil --}}
     <div class="card mb-4">
         <div class="card-body text-center">
@@ -22,7 +28,7 @@
             </h4>
 
             <p class="{{ $user->email_verified_at ? 'text-success' : 'text-danger' }} mb-0">
-                {{ $user->confirmed ? '' : 'Usuario no confirmado' }}
+                {{ $user->email_verified_at ? '' : 'Usuario no confirmado' }}
             </p>
         </div>
     </div>
@@ -54,63 +60,61 @@
                 <li class="list-group-item"><strong>Ciudad:</strong> {{ $user->address?->city ?? 'Sin especificar' }}</li>
                 <li class="list-group-item"><strong>Código Postal:</strong> {{ $user->address?->postal_code ?? 'Sin especificar' }}</li>
                 <li class="list-group-item">
-                    @php
-                        $direccion = $user->address?->street_name ?? ''; 
-                        if ($user->address?->passageway) {
-                            $direccion .= ', pasaje: ' . $user->address->passageway;
-                        }
-                        $direccion .= $user->address?->entrance_number ?? '';
-                        if ($user->address?->block) {
-                            $direccion .= ', bloque: ' . $user->address->block;
-                        }
-                        $direccion .= ', piso: ' . $user->address?->floor ?? '' . ', puerta: ' . $user->address?->apartment_number ?? '';
-                    @endphp
-                    <strong>Dirección completa:</strong> {{ $direccion }}
+                    <strong>Dirección completa:</strong> 
+                    @if($user->address)
+                        {{ $user->formatFullAddress() }}
+                    @else
+                        <span>Dirección no disponible</span>
+                    @endif
                 </li>
             </ul>
         </div>
     </div>
 
-    {{-- Título general fuera de las cards --}}
-    <h3 class="text-primary m-4 text-center">Alquileres Vigentes</h4>
-
-    @if($user->leasesAsClient->isNotEmpty())
-        <div class="row g-4">
-            @foreach($user->leasesAsClient as $lease)
-                <div class=" col-12 col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body d-flex flex-column justify-content-between h-100">
-
-                            {{-- Info del alquiler --}}
-                            <div class="mb-3">
-                                <p class="mb-2 text-dark"><strong>Tipo:</strong> {{ $lease->property->type->property_type }}</p>
-                                <p class="mb-2 text-dark"><strong>Inicio de Alquiler:</strong> {{ $lease->start_lease->format('d/m/Y') }}</p>
-                                <p class="mb-2 text-dark"><strong>Fin de Alquiler:</strong> {{ $lease->ending_lease?->format('d/m/Y') ?? 'No especificado' }}</p>
-                                <p class="mb-2 text-dark"><strong>Dirección:</strong> {{ $lease->property->address->street_name }}</p>
-                            </div>
-
-                            {{-- Botones al fondo --}}
-                            <div class="row mt-auto g-2">
-                                <div class="{{ in_array(auth()->user()->role_id, [2, 3]) ? 'col-6' : 'col-12' }}">
-                                    <a href="{{ route('properties.show', $lease->property) }}" class="btn btn-primary text-white w-100 btn-lg p-4">Ver</a>
-                                </div>
-                                @if(in_array(auth()->user()->role_id, [2, 3]))
-                                    <div class="col-6">
-                                        <a href="{{ route('properties.edit', $lease->property) }}" class="btn btn-secondary text-white w-100 btn-lg p-4">Editar</a>
-                                    </div>
-                                @endif
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+    {{-- Card 3: Actividad --}}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="text-primary mb-3">Actividad</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Último acceso:</strong> 
+                    {{ $user->last_login_at ? \Carbon\Carbon::parse($user->last_login_at)->diffForHumans() : 'Sin registros' }}
+                </li>
+                <li class="list-group-item">
+                    <strong>IP actual:</strong> {{ request()->ip() }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Dispositivo actual:</strong> {{ request()->userAgent() }}
+                </li>
+            </ul>
         </div>
-    @else
-        <div class="alert alert-info">
-            Este usuario no tiene ninguna propiedad alquilada actualmente.
+    </div>
+
+    {{-- Card 4: Seguridad --}}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="text-primary mb-3">Seguridad</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Verificación en dos pasos:</strong> 
+                    @if($user->two_factor_secret)
+                        <span class="text-success fw-bold">Activada</span>
+                    @else
+                        <span class="text-danger fw-bold">No activada</span> 
+                        <a href="{{ route('two-factor.setup') }}" class="btn btn-lg btn-outline-primary ms-3">Activar ahora</a>
+                    @endif
+                </li>
+                <li class="list-group-item">
+                    <strong>Email verificado:</strong>
+                    <span class="{{ $user->email_verified_at ? 'text-success' : 'text-danger' }}">
+                        {{ $user->email_verified_at ? 'Sí' : 'No' }}
+                    </span>
+                </li>
+            </ul>
         </div>
-    @endif
+    </div>
+
+
 
 
 </div>

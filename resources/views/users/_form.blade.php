@@ -1,5 +1,11 @@
 <div class="card container p-4">
-    <form action="{{ isset($user) ? route('users.update', $user) : route('users.store') }}" method="POST">
+    @php
+        $formAction = $isProfile ?? false
+            ? route('profile.update')
+            : (isset($user) ? route('users.update', $user) : route('users.store'));
+    @endphp
+
+    <form action="{{ $formAction }}" method="POST">
         @csrf
         @if(isset($user))
             @method('PUT')
@@ -57,12 +63,12 @@
                 <input type="text" name="passageway" value="{{ old('passageway', $user->address->passageway ?? '') }}" class="form-control">
             </div>
             <div class="col">
-                <label for="entrance_number">Número</label>
-                <input type="text" name="entrance_number" value="{{ old('entrance_number', $user->address->entrance_number ?? '') }}" class="form-control">
+                <label for="building_number">Número</label>
+                <input type="text" name="building_number" value="{{ old('building_number', $user->address->building_number ?? '') }}" class="form-control">
             </div>
             <div class="col">
-                <label for="apartment_number">Puerta</label>
-                <input type="text" name="apartment_number" value="{{ old('apartment_number', $user->address->apartment_number ?? '') }}" class="form-control">
+                <label for="number">Puerta</label>
+                <input type="text" name="number" value="{{ old('number', $user->address->number ?? '') }}" class="form-control">
             </div>
             <div class="col">
                 <label for="floor">Piso</label>

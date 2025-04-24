@@ -35,11 +35,20 @@
               </li>
               
               @auth
-                  {{-- Enlace a Perfil si está logueado --}}
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ route('profile') }}">Perfil</a>
-                  </li>
-                  @if (Route::has('logout'))
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('leased') }}">Alquileres</a>
+                </li>
+
+                {{-- Enlace a Perfil si está logueado --}}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('profile') }}">Perfil</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('configuracion', 'general') }}">Configuración</a>
+                </li>
+
+                @if (Route::has('logout'))
                     {{-- Botón de Logout --}}
                     <li class="nav-item ms-2">
                         <form method="POST" action="{{ route('logout') }}">
@@ -47,7 +56,7 @@
                             <button type="submit" class="btn btn-outline-danger p-2">Logout</button>
                         </form>
                     </li>
-                  @endif
+                @endif
               @else
                     {{-- Botón de Login si NO está logueado --}}
                     <li class="nav-item ms-2">

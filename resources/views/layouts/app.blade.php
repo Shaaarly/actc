@@ -11,7 +11,7 @@
   <script src="https://kit.fontawesome.com/f03bcf4820.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="d-flex">
+  <div class="d-flex h-100">
     @auth
       @if(in_array(auth()->user()->role_id, [2, 3]))
           <!-- Sidebar: ocupa toda la altura a la izquierda -->
@@ -21,15 +21,28 @@
       @endif
     @endauth
 
-  
 
     <div class="d-flex flex-column flex-grow-1">
 
       <div class="bg-white">
         @include('partials.navbar')
       </div>
+      
+      {{-- Alerta para informar de confirmacion de correo --}}
+      @if(auth()->check() && !auth()->user()->hasVerifiedEmail())
+        <div class="alert alert-warning text-center">
+            Verifica tu correo electrónico para acceder a todas las funciones.
+            <form method="POST" action="{{ route('verification.send') }}" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-warning">Reenviar verificación</button>
+            </form>
+        </div>
+      @endif
+      @php
+        $isAuth = request()->routeIs('login') || request()->routeIs('register');
+      @endphp
 
-      <div class="flex-grow-1 bg-white p-3 main-content">
+      <div class="bg-white p-3 @if($isAuth) auth-content h-100 d-flex align-items-center justify-content-center @else main-content flex-grow-1 @endif ">
         
         @include('partials.alerts')
 
@@ -37,9 +50,21 @@
       </div>
     </div>
   </div>
+
   
   @vite('resources/js/propertyForm.js')
   @vite('resources/js/usersForm.js')
   @stack('scripts')
+
+  @if(session('show_2fa_modal'))
+    @include('components.modals.two-factor-prompt')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = new bootstrap.Modal(document.getElementById('twoFactorPrompt'));
+            modal.show();
+        });
+    </script>
+  @endif
+
 </body>
 </html>

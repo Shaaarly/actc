@@ -1,0 +1,63 @@
+@use '../base/variables' as v;
+
+.auth-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #e3f2fd, #90caf9);
+  
+    .auth-card {
+      background: white;
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+  
+      .card-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
+  
+      form {
+        margin-top: 2rem;
+  
+        .form-floating {
+          margin-bottom: 1.5rem;
+  
+          input {
+            background-color: #f8f9fa;
+          }
+  
+          label {
+            color: #6c757d;
+          }
+        }
+  
+        button {
+          font-size: 1.1rem;
+          padding: 0.75rem;
+          font-weight: 600;
+          color: v.$white;
+        }
+      }
+  
+      .card-footer {
+        background: transparent;
+        margin-top: 2rem;
+        font-size: 1.2rem;
+        color: v.$dark;
+  
+        a {
+          text-decoration: none;
+          color: #0d6efd;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
